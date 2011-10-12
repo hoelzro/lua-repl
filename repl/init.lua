@@ -23,7 +23,7 @@ local dtraceback   = debug.traceback
 local setmetatable = setmetatable
 local smatch       = string.match
 
---- @module repl
+-- @class repl
 --- This module implements the core functionality of a REPL.
 
 local function gather_results(success, ...)
@@ -32,26 +32,26 @@ local function gather_results(success, ...)
 end
 
 --- Returns the prompt for a given level.
---- @param level The prompt level. Either 1 or 2.
+-- @param level The prompt level. Either 1 or 2.
 function repl:getprompt(level)
   return level == 1 and 'lua>' or 'lua>>'
 end
 
 --- Displays a prompt for the given prompt level.
---- @param level The prompt level. Either 1 or 2.
+-- @param level The prompt level. Either 1 or 2.
 function repl:prompt(level)
   self:showprompt(self:getprompt(level))
 end
 
 --- Returns the name of the REPL.  For usage in chunk compilation.
---- @return The REPL's name.
---- @see load
+-- @return The REPL's name.
+-- @see load
 function repl:name()
   return 'REPL'
 end
 
 --- Gets a traceback for an error.
---- @see xpcall
+-- @see xpcall
 function repl:traceback(...)
   return dtraceback(...)
 end

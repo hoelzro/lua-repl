@@ -23,21 +23,21 @@ local stdin        = io.stdin
 local print        = print
 local unpack       = unpack
 
---- @module repl.console
+-- @class repl.console
 --- This module implements a command line-based REPL,
 --- similar to the standalone Lua interpreter.
 
---- @see repl:showprompt(prompt)
+-- @see repl:showprompt(prompt)
 function console_repl:showprompt(prompt)
   stdout:write(prompt .. ' ')
 end
 
---- @see repl.sync:lines()
+-- @see repl.sync:lines()
 function console_repl:lines()
   return stdin:lines()
 end
 
---- @see repl:displayresults(results)
+-- @see repl:displayresults(results)
 function console_repl:displayresults(results)
   if results.n == 0 then
     return
@@ -46,7 +46,7 @@ function console_repl:displayresults(results)
   print(unpack(results, 1, results.n))
 end
 
---- @see repl:displayerror(err)
+-- @see repl:displayerror(err)
 function console_repl:displayerror(err)
   print(err)
 end
