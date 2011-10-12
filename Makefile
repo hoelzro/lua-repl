@@ -8,3 +8,6 @@ install:
 	# TODO
 luarocks:
 	# TODO
+
+clean:
+	rm -rf doc/
