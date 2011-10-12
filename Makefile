@@ -7,5 +7,8 @@ doc:
 install:
 	# TODO
 
+test:
+	# TODO
+
 clean:
 	rm -rf doc/
