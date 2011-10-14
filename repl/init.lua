@@ -16,15 +16,15 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+-- @class repl
+--- This module implements the core functionality of a REPL.
+
 local repl         = { _buffer = '' }
 local select       = select
 local loadstring   = loadstring
 local dtraceback   = debug.traceback
 local setmetatable = setmetatable
 local smatch       = string.match
-
--- @class repl
---- This module implements the core functionality of a REPL.
 
 local function gather_results(success, ...)
   local n = select('#', ...)
