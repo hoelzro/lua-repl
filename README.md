@@ -16,3 +16,9 @@ make use of.
   * Be extensible through polymorphism and plugins.
 
   * Abstract away I/O, so you can run this REPL on the command line or in your own event loop and expect the same behavior.
+
+# Building
+
+  * You need Luadoc (http://keplerproject.github.com/luadoc/) installed to build the documentation.
+
+  * You need Telescope (http://telescope.luaforge.net/) installed to run the tests.
