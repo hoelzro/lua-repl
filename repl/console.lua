@@ -16,16 +16,16 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+-- @class repl.console
+--- This module implements a command line-based REPL,
+--- similar to the standalone Lua interpreter.
+
 local sync_repl    = require 'repl.sync'
 local console_repl = sync_repl:clone()
 local stdout       = io.stdout
 local stdin        = io.stdin
 local print        = print
 local unpack       = unpack
-
--- @class repl.console
---- This module implements a command line-based REPL,
---- similar to the standalone Lua interpreter.
 
 -- @see repl:showprompt(prompt)
 function console_repl:showprompt(prompt)
