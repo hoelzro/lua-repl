@@ -8,7 +8,7 @@ install:
 	# TODO
 
 test:
-	# TODO
+	tsc tests/*.lua
 
 clean:
 	rm -rf doc/
