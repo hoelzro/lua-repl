@@ -1,4 +1,4 @@
-LUA_FILES=$(shell find . -type f -name '*.lua')
+LUA_FILES=$(shell find repl/ -type f -name '*.lua')
 .PHONY: doc install
 
 doc:
