@@ -51,15 +51,26 @@ function repl:name()
 end
 
 --- Gets a traceback for an error.
+-- @param ... All of the stuff that xpcall passes to error functions.
 -- @see xpcall
+-- @return A stack trace.  The default implementation returns a simple string-based trace.
 function repl:traceback(...)
   return dtraceback(...)
 end
 
+--- Uses the compilation error to determine whether or not further input
+--- is pending after the last line.  You shouldn't have to override this
+--- unless you use an implementation of Lua that varies in its error
+--- messages.
+-- @param err The compilation error from Lua.
+-- @return Whether or not the input should continue after this line.
 function repl:detectcontinue(err)
   return smatch(err, "'<eof>'$")
 end
 
+--- Evaluates a line of input, and displays return value(s).
+-- @param line
+-- @return The prompt level (1 or 2)
 function repl:evaluate(line)
   local chunk  = self._buffer .. line
   local f, err = loadstring('return ' .. chunk, self:name())
@@ -89,6 +100,8 @@ function repl:evaluate(line)
   return 1
 end
 
+--- Creates a new REPL object, so you can override methods without fear.
+-- @return A REPL clone.
 function repl:clone()
   return setmetatable({ _buffer = '' }, { __index = self })
 end
