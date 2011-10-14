@@ -106,4 +106,12 @@ function repl:clone()
   return setmetatable({ _buffer = '' }, { __index = self })
 end
 
+--- Displays the given prompt to the user.  Must be overriden.
+-- @name repl:showprompt(prompt)
+-- @param prompt The prompt to display.
+
+--- Displays the results from evaluate().  Must be overriden.
+-- @name repl:displayresults(results)
+-- @param result The results to display. The results are a table, with the integer keys containing the results, and the 'n' key containing the highest integer key.
+
 return repl
