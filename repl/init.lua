@@ -69,7 +69,7 @@ function repl:detectcontinue(err)
 end
 
 --- Evaluates a line of input, and displays return value(s).
--- @param line
+-- @param line The line to evaluate
 -- @return The prompt level (1 or 2)
 function repl:evaluate(line)
   local chunk  = self._buffer .. line
