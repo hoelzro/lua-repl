@@ -104,6 +104,22 @@ context('REPL tests', function()
       end
       assert_equal(results[8], 2)
     end)
+
+    test('error handling tests', function()
+      assert_not_error(function()
+        clone:evaluate '3 4'
+      end)
+
+      assert_not_nil(errmsg)
+
+      errmsg = nil
+
+      assert_not_error(function()
+        clone:evaluate 'error "foo"'
+      end)
+
+      assert_not_nil(errmsg)
+    end)
   end)
 
   context('sync REPL tests', function()
