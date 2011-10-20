@@ -25,6 +25,7 @@ local loadstring   = loadstring
 local dtraceback   = debug.traceback
 local setmetatable = setmetatable
 local smatch       = string.match
+local error        = error
 
 local function gather_results(success, ...)
   local n = select('#', ...)
@@ -107,11 +108,16 @@ function repl:clone()
 end
 
 --- Displays the given prompt to the user.  Must be overriden.
--- @name repl:showprompt(prompt)
 -- @param prompt The prompt to display.
+function repl:showprompt(prompt)
+  error 'You must implement the showprompt method'
+end
 
 --- Displays the results from evaluate().  Must be overriden.
--- @name repl:displayresults(results)
--- @param result The results to display. The results are a table, with the integer keys containing the results, and the 'n' key containing the highest integer key.
+-- @param results The results to display. The results are a table, with the integer keys containing the results, and the 'n' key containing the highest integer key.
+
+function repl:displayresults(results)
+  error 'You must implement the displayresults method'
+end
 
 return repl
