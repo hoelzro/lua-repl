@@ -34,6 +34,7 @@ context('REPL tests', function()
     local clone
     local prompt
     local results
+    local errmsg
 
     test('clone tests', function()
       clone = repl:clone()
@@ -45,6 +46,10 @@ context('REPL tests', function()
 
       function clone:displayresults(r)
         results = r
+      end
+
+      function clone:displayerror(err)
+        errmsg = err
       end
     end)
 
