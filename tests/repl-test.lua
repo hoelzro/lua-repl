@@ -125,6 +125,23 @@ context('REPL tests', function()
 
       assert_not_nil(errmsg)
     end)
+
+    test('multi-line input', function()
+      errmsg = nil
+      _G.t = {}
+
+      assert_not_error(function()
+        clone:evaluate 'for i = 1, 3 do'
+        clone:evaluate '  table.insert(_G.t, i)'
+        clone:evaluate 'end'
+      end)
+
+      assert_nil(errmsg)
+      assert_equal(#_G.t, 3)
+      assert_equal(_G.t[1], 1)
+      assert_equal(_G.t[2], 2)
+      assert_equal(_G.t[3], 3)
+    end)
   end)
 
   context('sync REPL tests', function()
