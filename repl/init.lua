@@ -120,4 +120,11 @@ function repl:displayresults(results)
   error 'You must implement the displayresults method'
 end
 
+--- Displays errors from evaluate().  Must be overriden.
+-- @param err The error value returned from repl:traceback().
+-- @see repl:traceback
+function repl:displayerror(err)
+  error 'You must implement the displayerror method'
+end
+
 return repl
