@@ -1,7 +1,7 @@
 package = 'luarepl'
 version = '0.1-1'
 source  = {
-    url = 'http://...'
+    url = 'https://github.com/downloads/hoelzro/lua-repl/lua-repl-0.1.tar.gz'
 }
 description = {
   summary  = 'A reusable REPL component for Lua, written in Lua',
