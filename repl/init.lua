@@ -83,7 +83,7 @@ function repl:evaluate(line)
   if f then
     self._buffer = ''
 
-    local success, results = gather_results(xpcall(f, function(...) self:traceback(...) end))
+    local success, results = gather_results(xpcall(f, function(...) return self:traceback(...) end))
     if success then
       self:displayresults(results)
     else
