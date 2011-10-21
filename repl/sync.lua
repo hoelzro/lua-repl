@@ -18,6 +18,7 @@
 
 local repl      = require 'repl'
 local sync_repl = repl:clone()
+local error     = error
 
 -- @class repl.sync
 --- This module implements a synchronous REPL.  It provides
@@ -36,5 +37,8 @@ end
 -- @name repl.sync:lines()
 --- Returns an iterator that yields lines to be evaluated.
 -- @return An iterator.
+function sync_repl:lines()
+  error 'You must implement the lines method'
+end
 
 return sync_repl
