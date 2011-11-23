@@ -15,5 +15,18 @@
   * don't contaminate globals
   * editline
   * tab completion (\_\_complete metamethod)
+    * "safe" evaluation (don't allow calling of C functions, except for those in a whitelist?)
   * web-based REPL implementation
+  * irc-based REPL implementation
+    * safety hooks
   * displaystack instead of displayerror(err)? (should xpcall return false, stack\_table?)
+  * visual REPL (like Factor; being able to print multi-colored/multi-sized text, images, etc)
+  * syntax highlighting
+  * paren/brace matching?
+  * snippets?
+  * code navigation (go to definition?)
+  * history
+  * repls that "attach" to different objects (ie. inspect a single object; self is that object.  completions happen against that object?)
+  * browsable/searchable REPL history
+  * safe termination of evaluated code (if I Control-C during an evaluation)
+  * store stdout/stderr output in a variable somewhere?
