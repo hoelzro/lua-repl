@@ -8,6 +8,10 @@
     * pretty print results
     * tab completion
   * handle locals (debug.sethook?)
+    * debug.sethook, catch return of our chunk and grab its locals
+    * rewrite source code/bytecode before evaluation
+    * custom interpreter patch to "pcall and get bindings"
+    * custom module that dips into internals to "pcall and get bindings"
   * some sort of debugger?
   * override debug.debug?
   * save old results (ala Python's \_)
