@@ -34,3 +34,10 @@
   * browsable/searchable REPL history
   * safe termination of evaluated code (if I Control-C during an evaluation)
   * store stdout/stderr output in a variable somewhere?
+
+hooks
+=====
+
+  * what to do when we encounter an incomplete Lua fragment
+  * processing a line
+  * something for debug.debug...
