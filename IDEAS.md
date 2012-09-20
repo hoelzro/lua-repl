@@ -34,6 +34,10 @@
   * browsable/searchable REPL history
   * safe termination of evaluated code (if I Control-C during an evaluation)
   * store stdout/stderr output in a variable somewhere?
+  * persistence (pluto-based image)
+  * command line options (-l and friends)
+  * switch tests to Test-More
+  * supple plugin (http://cgit.gitano.org.uk/supple.git)
 
 hooks
 =====
@@ -41,3 +45,12 @@ hooks
   * what to do when we encounter an incomplete Lua fragment
   * processing a line
   * something for debug.debug...
+
+Implementations
+===============
+
+  * Console
+  * GUI
+  * Web
+  * IRC
+  * Awesome
