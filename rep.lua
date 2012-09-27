@@ -20,6 +20,10 @@
 
 -- Not as cool a name as re.pl, but I tried.
 
-local console = require 'repl.console'
+local ok, repl = pcall(require, 'repl.linenoise')
 
-console:run()
+if not ok then
+  repl = require 'repl.console'
+end
+
+repl:run()
