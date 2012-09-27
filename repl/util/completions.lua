@@ -24,6 +24,7 @@ local getmetatable = getmetatable
 local pairs        = pairs
 local sfind        = string.find
 local sgmatch      = string.gmatch
+local smatch       = string.match
 local ssub         = string.sub
 local tconcat      = table.concat
 local type         = type
@@ -97,6 +98,16 @@ local function determine_ns(expr)
 
   if #pieces > 1 then
     prefix = tconcat(pieces, '.', 1, #pieces - 1) .. '.'
+  end
+
+  local last_piece = pieces[#pieces]
+
+  local before, after = smatch(last_piece, '(.*):(.*)')
+
+  if before then
+    ns     = ns[before] -- XXX rawget
+    prefix = prefix .. before .. ':'
+    expr   = after
   end
 
   return ns, prefix, expr
