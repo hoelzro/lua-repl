@@ -1,2 +1,6 @@
+0.2   Sep 28 2012
+      - Add linenoise REPL.
+      - Add completion support.
+
 0.1   Oct 20 2011
       Initial release.  Basic REPL functionality.
