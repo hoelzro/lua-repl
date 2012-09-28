@@ -27,6 +27,7 @@ local sgmatch      = string.gmatch
 local smatch       = string.match
 local ssub         = string.sub
 local tconcat      = table.concat
+local tsort        = table.sort
 local type         = type
 
 local function isindexable(value)
@@ -162,6 +163,8 @@ local function complete(expr, callback)
 
   prefix = prefix .. path
 
+  local completions = {}
+
   for k, v in getcompletions(ns) do
     if sfind(k, expr, 1, true) == 1 then
       local suffix = ''
@@ -174,8 +177,14 @@ local function complete(expr, callback)
         suffix = '.'
       end
 
-      callback(prefix .. k .. suffix)
+      completions[#completions + 1] = prefix .. k .. suffix
     end
+  end
+
+  tsort(completions)
+
+  for _, completion in ipairs(completions) do
+    callback(completion)
   end
 end
 
