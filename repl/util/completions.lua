@@ -90,6 +90,10 @@ local function determine_ns(expr)
     local key = pieces[index]
     -- XXX rawget? or regular access? (option?)
     ns = ns[key]
+
+    if not isindexable(ns) then
+      return {}, '', ''
+    end
   end
 
   expr = pieces[#pieces]
