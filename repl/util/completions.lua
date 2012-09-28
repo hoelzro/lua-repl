@@ -113,10 +113,50 @@ local function determine_ns(expr)
   return ns, prefix, expr
 end
 
-local function complete(expr, callback)
-  local ns, prefix
+local isidentifierchar
 
-  ns, prefix, expr = determine_ns(expr)
+do
+  local ident_chars_set = {}
+  -- XXX I think this can be done with isalpha in C...
+  local ident_chars     = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.:_0123456789'
+
+  for i = 1, #ident_chars do
+    local char = ssub(ident_chars, i, i)
+    ident_chars_set[char] = true
+  end
+
+  function isidentifierchar(char)
+    return ident_chars_set[char]
+  end
+end
+
+local function extract_innermost_expr(expr)
+  local index = #expr
+
+  while index > 0 do
+    local char = ssub(expr, index, index)
+    if isidentifierchar(char) then
+      index = index - 1
+    else
+      break
+    end
+  end
+
+  index = index + 1
+
+  return ssub(expr, 1, index - 1), ssub(expr, index)
+end
+
+-- XXX is this logic (namely, returning the entire line) too specific to
+--     linenoise?
+local function complete(expr, callback)
+  local ns, prefix, path
+
+  prefix, expr = extract_innermost_expr(expr)
+
+  ns, path, expr = determine_ns(expr)
+
+  prefix = prefix .. path
 
   for k, v in getcompletions(ns) do
     if sfind(k, expr, 1, true) == 1 then
