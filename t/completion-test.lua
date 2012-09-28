@@ -16,7 +16,7 @@ local function test_completions(line, expected)
     got[#got + 1] = completion
   end)
 
-  tsort(got)
+  -- don't sort got; we expect it to be sorted!
   tsort(expected)
 
   if #got ~= #expected then
