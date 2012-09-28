@@ -17,7 +17,7 @@
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -- @class repl.util.completions
---  This module provides completion facilities.
+---  This module provides completion facilities.
 
 -- XXX this functionality should be provided by a plugin
 local getmetatable = getmetatable

@@ -16,14 +16,16 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
--- @class repl.linenoise
---  This module implements a command line-based REPL that
---  offers advanced features like history and tab completion.
-
 local ln             = require 'linenoise'
 local console        = require 'repl.console'
 local complete       = require 'repl.util.completions'
 local linenoise_repl = console:clone()
+
+-- @class repl.linenoise
+--- This module implements a command line-based REPL that
+--- offers advanced features like history and tab completion.
+--- This module also supports REPL history; the history is
+--- stored in $HOME/.rep.lua.history.
 
 local history_file
 
