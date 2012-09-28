@@ -72,7 +72,20 @@ local function collect_annotated_keys(table, prefix)
   return keys
 end
 
-plan(11)
+plan(12)
+
+special_object               = {}
+local special_object_methods = {
+  'foo',
+  'bar',
+  'baz',
+}
+
+setmetatable(special_object, { __index = function()
+  -- in the real world, this would actually do something
+end, __complete = function()
+  -- XXX implement me
+end})
 
 local global_keys     = collect_annotated_keys(_G)
 local io_keys         = collect_annotated_keys(io, 'io.')
@@ -90,10 +103,14 @@ test_completions('_G._G._G.', collect_annotated_keys(_G, '_G._G._G.'))
 test_completions('io.stdin:', io_method_calls)
 test_completions('print(co', filter(collect_annotated_keys(_G, 'print('), '^print%(co.*'))
 test_completions('"foo " .. _V', '"foo " .. _VERSION')
+test_completions('non.existent.', {})
 
---test_completions('something.with.__complete')
---test_completions('foo.bar:method().start_of_a_')
---test_completions('non.existent.')
+-- XXX skip doesn't seem to work properly?
+--skip('completing complex expressions is not yet implemented', 1)
+--test_completions('_G._VERSION:sub(1, 3):le', collect_annotated_keys(string, '_G._VERSION:sub(1, 3):'))
+
+--skip('__complete is not yet implemented', 1)
+--test_completions('special_object.', special_object_methods)
 
 --[[
 
