@@ -8,7 +8,7 @@ install:
 	# TODO
 
 test:
-	LUA_PATH='?.lua;?/init.lua' tsc tests/*.lua
+	LUA_PATH=';;?.lua;?/init.lua' prove
 
 clean:
 	rm -rf doc/
