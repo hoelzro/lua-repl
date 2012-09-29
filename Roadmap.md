@@ -2,7 +2,6 @@
 ===
 
   * Fix documentation
-  * Move tests to Test.More
   * Plugins
 
 Future
