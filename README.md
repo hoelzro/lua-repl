@@ -21,4 +21,4 @@ make use of.
 
   * You need Luadoc (http://keplerproject.github.com/luadoc/) installed to build the documentation.
 
-  * You need Telescope (http://telescope.luaforge.net/) installed to run the tests.
+  * You need Test.More (http://fperrad.github.com/lua-TestMore/testmore.html) installed to run the tests.
