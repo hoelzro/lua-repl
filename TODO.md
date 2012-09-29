@@ -1,1 +1,0 @@
-  * Move tests/ to t/
