@@ -2,7 +2,7 @@ local repl = require 'repl'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(23)
+plan(25)
 
 local function next_line_number()
   local info = debug.getinfo(2, 'l')
@@ -48,6 +48,13 @@ local function cmp_tables(lhs, rhs)
     diag(string.format('     got[%q]: %s', tostring(failing_k), tostring(got)))
     diag(string.format('expected[%q]: %s', tostring(failing_k), tostring(expected)))
   end
+end
+
+local function gather_results(...)
+  return {
+    n = select('#', ...),
+    ...,
+  }
 end
 
 local clone = repl:clone()
@@ -179,12 +186,33 @@ do -- before tests (return values)
     return 17
   end
 
+  function with_plugin:bar()
+    return 18, 19, 20
+  end
+
+  function with_plugin:baz()
+    return 1, nil, nil, nil, 5
+  end
+
   with_plugin:loadplugin(function()
     function before:foo()
       return 18
+    end
+
+    function before:bar()
+      return 18
+    end
+
+    function before:baz()
     end
   end)
 
   local result = with_plugin:foo()
   is(result, 17)
+
+  local results = gather_results(with_plugin:bar())
+  cmp_tables(results, { n = 3, 18, 19, 20 })
+
+  results = gather_results(with_plugin:baz())
+  cmp_tables(results, { n = 5, 1, nil, nil, nil, 5 })
 end
