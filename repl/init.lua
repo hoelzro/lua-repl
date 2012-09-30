@@ -127,4 +127,21 @@ function repl:displayerror(err)
   error 'You must implement the displayerror method'
 end
 
+function repl:loadplugin(chunk)
+  local plugin_env = {
+    repl     = {},
+    before   = {},
+    after    = {},
+    around   = {},
+    override = {},
+    init     = function() end,
+  }
+  plugin_env._G = plugin_env
+  setmetatable(plugin_env, { __index = _G, __newindex = _G })
+
+  setfenv(chunk, plugin_env)
+  chunk()
+  plugin_env.init()
+end
+
 return repl
