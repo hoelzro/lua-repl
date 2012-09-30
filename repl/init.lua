@@ -128,6 +128,13 @@ function repl:displayerror(err)
   error 'You must implement the displayerror method'
 end
 
+local function gather_results(...)
+  return {
+    n = select('#', ...),
+    ...,
+  }
+end
+
 local function setup_before(repl)
   local mt = {}
 
@@ -151,11 +158,35 @@ local function setup_before(repl)
   return setmetatable({}, mt)
 end
 
+local function setup_after(repl)
+  local mt = {}
+
+  function mt:__newindex(key, value)
+    if type(value) ~= 'function' then
+      error(tostring(value) .. " is not a function", 2)
+    end
+
+    local old_value = repl[key]
+
+    if old_value == nil then
+      error(sformat("The '%s' method does not exist", key), 2)
+    end
+
+    repl[key] = function(...)
+      local results = gather_results(old_value(...))
+      value(...)
+      return unpack(results, 1, results.n)
+    end
+  end
+
+  return setmetatable({}, mt)
+end
+
 function repl:loadplugin(chunk)
   local plugin_env = {
     repl     = {},
     before   = setup_before(self),
-    after    = {},
+    after    = setup_after(self),
     around   = {},
     override = {},
     init     = function() end,
