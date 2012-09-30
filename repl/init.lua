@@ -139,7 +139,7 @@ local function setup_before(repl)
     local old_value = repl[key]
 
     if old_value == nil then
-      error(sformat("The '%s' method does not exist", key))
+      error(sformat("The '%s' method does not exist", key), 2)
     end
 
     repl[key] = function(...)
