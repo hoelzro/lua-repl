@@ -1,59 +1,7 @@
 local repl = require 'repl'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
-
-local function next_line_number()
-  local info = debug.getinfo(2, 'l')
-  return info.currentline + 1 -- doesn't work with whitespace
-end
-
-local function cmp_tables(lhs, rhs)
-  local ok = true
-  local got
-  local expected
-  local failing_k
-
-  for k, v in pairs(lhs) do
-    local rv = rhs[k]
-
-    if v ~= rv then
-      ok        = false
-      failing_k = k
-      got       = v
-      expected  = rv
-      break
-    end
-  end
-
-  if ok then
-    for k, v in pairs(rhs) do
-      local lv = lhs[k]
-
-      if v ~= lv then
-        ok        = false
-        failing_k = k
-        got       = lv
-        expected  = v
-        break
-      end
-    end
-  end
-
-  if ok then
-    pass()
-  else
-    fail 'value mismatch'
-    diag(string.format('     got[%q]: %s', tostring(failing_k), tostring(got)))
-    diag(string.format('expected[%q]: %s', tostring(failing_k), tostring(expected)))
-  end
-end
-
-local function gather_results(...)
-  return {
-    n = select('#', ...),
-    ...,
-  }
-end
+local utils = require 'test-utils'
 
 plan(24)
 
@@ -84,7 +32,7 @@ do -- basic tests
 
   local _, err = pcall(function()
     with_plugin:loadplugin(function()
-      line_no = next_line_number()
+      line_no = utils.next_line_number()
       function before:nonexistent()
       end
     end)
@@ -94,7 +42,7 @@ do -- basic tests
 
   _, err = pcall(function()
     with_plugin:loadplugin(function()
-      line_no = next_line_number()
+      line_no = utils.next_line_number()
       before.foo = 17
     end)
   end)
@@ -125,14 +73,14 @@ do -- arguments tests
 
   with_plugin:foo()
   is(got_args.n, 0)
-  cmp_tables(orig_args, got_args)
+  utils.cmp_tables(orig_args, got_args)
 
   with_plugin:foo(1, 2, 3)
   is(got_args.n, 3)
   is(got_args[1], 1)
   is(got_args[2], 2)
   is(got_args[3], 3)
-  cmp_tables(orig_args, got_args)
+  utils.cmp_tables(orig_args, got_args)
 
   with_plugin:foo(1, nil, nil, nil, 5)
   is(got_args.n, 5)
@@ -141,7 +89,7 @@ do -- arguments tests
   is(got_args[3], nil)
   is(got_args[4], nil)
   is(got_args[5], 5)
-  cmp_tables(orig_args, got_args)
+  utils.cmp_tables(orig_args, got_args)
 end
 
 do -- exception tests
@@ -196,9 +144,9 @@ do -- return value tests
   local result = with_plugin:foo()
   is(result, 17)
 
-  local results = gather_results(with_plugin:bar())
-  cmp_tables(results, { n = 3, 18, 19, 20 })
+  local results = utils.gather_results(with_plugin:bar())
+  utils.cmp_tables(results, { n = 3, 18, 19, 20 })
 
-  results = gather_results(with_plugin:baz())
-  cmp_tables(results, { n = 5, 1, nil, nil, nil, 5 })
+  results = utils.gather_results(with_plugin:baz())
+  utils.cmp_tables(results, { n = 5, 1, nil, nil, nil, 5 })
 end
