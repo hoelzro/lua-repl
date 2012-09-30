@@ -133,7 +133,7 @@ local function setup_before(repl)
 
   function mt:__newindex(key, value)
     if type(value) ~= 'function' then
-      error(tostring(value) .. " is not a function")
+      error(tostring(value) .. " is not a function", 2)
     end
 
     local old_value = repl[key]
