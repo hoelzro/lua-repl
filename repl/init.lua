@@ -24,6 +24,7 @@ local select       = select
 local loadstring   = loadstring
 local dtraceback   = debug.traceback
 local setmetatable = setmetatable
+local sformat      = string.format
 local smatch       = string.match
 local error        = error
 
@@ -127,10 +128,33 @@ function repl:displayerror(err)
   error 'You must implement the displayerror method'
 end
 
+local function setup_before(repl)
+  local mt = {}
+
+  function mt:__newindex(key, value)
+    if type(value) ~= 'function' then
+      error(tostring(value) .. " is not a function")
+    end
+
+    local old_value = repl[key]
+
+    if old_value == nil then
+      error(sformat("The '%s' method does not exist", key))
+    end
+
+    repl[key] = function(...)
+      value(...)
+      return old_value(...)
+    end
+  end
+
+  return setmetatable({}, mt)
+end
+
 function repl:loadplugin(chunk)
   local plugin_env = {
     repl     = {},
-    before   = {},
+    before   = setup_before(self),
     after    = {},
     around   = {},
     override = {},
