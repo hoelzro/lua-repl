@@ -107,8 +107,6 @@ do -- before tests
   end)
 
   like(err, string.format('%d: 17 is not a function', line_no))
-
-  -- XXX verify that wrapped functions have their params/return values preserved
 end
 
 do -- before tests (arguments)
