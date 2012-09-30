@@ -2,7 +2,7 @@ local repl = require 'repl'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(6)
+plan(17)
 
 local function next_line_number()
   local info = debug.getinfo(2, 'l')
@@ -68,7 +68,40 @@ do -- before tests
   like(err, string.format('%d: 17 is not a function', line_no))
 
   -- XXX verify that wrapped functions have their params/return values preserved
-  -- XXX what parameters does the advice yet?
   -- XXX what happens if the advice throws an exception?
   -- XXX what is done with the advice's return value?
+end
+
+do -- before tests (arguments)
+  local with_plugin = clone:clone()
+  local got_args
+
+  function with_plugin:foo()
+  end
+
+  with_plugin:loadplugin(function()
+    function before:foo(...)
+      got_args = {
+        n = select('#', ...),
+        ...,
+      }
+    end
+  end)
+
+  with_plugin:foo()
+  is(got_args.n, 0)
+
+  with_plugin:foo(1, 2, 3)
+  is(got_args.n, 3)
+  is(got_args[1], 1)
+  is(got_args[2], 2)
+  is(got_args[3], 3)
+
+  with_plugin:foo(1, nil, nil, nil, 5)
+  is(got_args.n, 5)
+  is(got_args[1], 1)
+  is(got_args[2], nil)
+  is(got_args[3], nil)
+  is(got_args[4], nil)
+  is(got_args[5], 5)
 end
