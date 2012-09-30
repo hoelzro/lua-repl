@@ -24,5 +24,4 @@ do -- init() tests
       end
     end)
   end, 'uh%-oh')
-  -- XXX parameters passed to init()
 end
