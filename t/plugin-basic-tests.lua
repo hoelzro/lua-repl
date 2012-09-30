@@ -2,7 +2,7 @@ local repl = require 'repl'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(22)
+plan(23)
 
 local function next_line_number()
   local info = debug.getinfo(2, 'l')
@@ -172,4 +172,21 @@ do -- before tests (exception)
 
   like(err, 'uh%-oh')
   ok(not has_called_original)
+end
+
+do -- before tests (return values)
+  local with_plugin = clone:clone()
+
+  function with_plugin:foo()
+    return 17
+  end
+
+  with_plugin:loadplugin(function()
+    function before:foo()
+      return 18
+    end
+  end)
+
+  local result = with_plugin:foo()
+  is(result, 17)
 end
