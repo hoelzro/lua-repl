@@ -2,7 +2,7 @@ local repl = require 'repl'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(5)
+plan(6)
 
 local function next_line_number()
   local info = debug.getinfo(2, 'l')
@@ -58,7 +58,15 @@ do -- before tests
 
   like(err, string.format("%d: The 'nonexistent' method does not exist", line_no))
 
-  -- XXX test before.foo = nonfunction
+  _, err = pcall(function()
+    with_plugin:loadplugin(function()
+      line_no = next_line_number()
+      before.foo = 17
+    end)
+  end)
+
+  like(err, string.format('%d: 17 is not a function', line_no))
+
   -- XXX verify that wrapped functions have their params/return values preserved
   -- XXX what parameters does the advice yet?
   -- XXX what happens if the advice throws an exception?
