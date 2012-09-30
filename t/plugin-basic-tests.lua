@@ -4,6 +4,11 @@ require 'Test.More'
 
 plan(5)
 
+local function next_line_number()
+  local info = debug.getinfo(2, 'l')
+  return info.currentline + 1 -- doesn't work with whitespace
+end
+
 local clone = repl:clone()
 
 do -- init() tests
@@ -41,12 +46,17 @@ do -- before tests
   ok(has_called_normal)
   ok(has_called_before)
 
-  error_like(function()
+  local line_no
+
+  local _, err = pcall(function()
     with_plugin:loadplugin(function()
+      line_no = next_line_number()
       function before:nonexistent()
       end
     end)
-  end, "The 'nonexistent' method does not exist") -- XXX check line number?
+  end)
+
+  like(err, string.format("%d: The 'nonexistent' method does not exist", line_no))
 
   -- XXX test before.foo = nonfunction
   -- XXX verify that wrapped functions have their params/return values preserved
