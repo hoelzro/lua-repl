@@ -69,7 +69,6 @@ do -- before tests
 
   -- XXX verify that wrapped functions have their params/return values preserved
   -- XXX what happens if the advice throws an exception?
-  -- XXX what is done with the advice's return value?
 end
 
 do -- before tests (arguments)
