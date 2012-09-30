@@ -2,7 +2,7 @@ local repl = require 'repl'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(17)
+plan(19)
 
 local function next_line_number()
   local info = debug.getinfo(2, 'l')
@@ -68,7 +68,6 @@ do -- before tests
   like(err, string.format('%d: 17 is not a function', line_no))
 
   -- XXX verify that wrapped functions have their params/return values preserved
-  -- XXX what happens if the advice throws an exception?
 end
 
 do -- before tests (arguments)
@@ -103,4 +102,25 @@ do -- before tests (arguments)
   is(got_args[3], nil)
   is(got_args[4], nil)
   is(got_args[5], 5)
+end
+
+do -- before tests (exception)
+  local with_plugin = clone:clone()
+
+  local has_called_original
+
+  function with_plugin:foo()
+    has_called_original = true
+  end
+
+  with_plugin:loadplugin(function()
+    function before:foo()
+      error 'uh-oh'
+    end
+  end)
+
+  local _, err = pcall(with_plugin.foo, with_plugin)
+
+  like(err, 'uh%-oh')
+  ok(not has_called_original)
 end
