@@ -8,7 +8,7 @@ install:
 	# TODO
 
 test:
-	LUA_PATH=';;?.lua;?/init.lua' prove
+	LUA_INIT='' LUA_PATH=';;?.lua;?/init.lua' prove
 
 clean:
 	rm -rf doc/
