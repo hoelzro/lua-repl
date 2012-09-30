@@ -1,4 +1,5 @@
 local sync = require 'repl.sync'
+pcall(require, 'luarocks.loader')
 require 'Test.More'
 
 plan(13)

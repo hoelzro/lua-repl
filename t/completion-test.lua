@@ -1,4 +1,5 @@
 local complete = require 'repl.util.completions'
+pcall(require, 'luarocks.loader')
 require 'Test.More'
 
 local sfind   = string.find

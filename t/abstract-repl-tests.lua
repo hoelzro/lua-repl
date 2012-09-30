@@ -1,4 +1,5 @@
 local repl = require 'repl'
+pcall(require, 'luarocks.loader')
 require 'Test.More'
 
 plan(8)
