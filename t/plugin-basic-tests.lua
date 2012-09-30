@@ -2,11 +2,52 @@ local repl = require 'repl'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(19)
+plan(22)
 
 local function next_line_number()
   local info = debug.getinfo(2, 'l')
   return info.currentline + 1 -- doesn't work with whitespace
+end
+
+local function cmp_tables(lhs, rhs)
+  local ok = true
+  local got
+  local expected
+  local failing_k
+
+  for k, v in pairs(lhs) do
+    local rv = rhs[k]
+
+    if v ~= rv then
+      ok        = false
+      failing_k = k
+      got       = v
+      expected  = rv
+      break
+    end
+  end
+
+  if ok then
+    for k, v in pairs(rhs) do
+      local lv = lhs[k]
+
+      if v ~= lv then
+        ok        = false
+        failing_k = k
+        got       = lv
+        expected  = v
+        break
+      end
+    end
+  end
+
+  if ok then
+    pass()
+  else
+    fail 'value mismatch'
+    diag(string.format('     got[%q]: %s', tostring(failing_k), tostring(got)))
+    diag(string.format('expected[%q]: %s', tostring(failing_k), tostring(expected)))
+  end
 end
 
 local clone = repl:clone()
@@ -72,9 +113,14 @@ end
 
 do -- before tests (arguments)
   local with_plugin = clone:clone()
+  local orig_args
   local got_args
 
-  function with_plugin:foo()
+  function with_plugin:foo(...)
+    orig_args = {
+      n = select('#', ...),
+      ...,
+    }
   end
 
   with_plugin:loadplugin(function()
@@ -88,12 +134,14 @@ do -- before tests (arguments)
 
   with_plugin:foo()
   is(got_args.n, 0)
+  cmp_tables(orig_args, got_args)
 
   with_plugin:foo(1, 2, 3)
   is(got_args.n, 3)
   is(got_args[1], 1)
   is(got_args[2], 2)
   is(got_args[3], 3)
+  cmp_tables(orig_args, got_args)
 
   with_plugin:foo(1, nil, nil, nil, 5)
   is(got_args.n, 5)
@@ -102,6 +150,7 @@ do -- before tests (arguments)
   is(got_args[3], nil)
   is(got_args[4], nil)
   is(got_args[5], 5)
+  cmp_tables(orig_args, got_args)
 end
 
 do -- before tests (exception)
