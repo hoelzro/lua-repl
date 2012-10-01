@@ -204,13 +204,33 @@ local function setup_around(repl)
   return setmetatable({}, mt)
 end
 
+local function setup_override(repl)
+  local mt = {}
+
+  function mt:__newindex(key, value)
+    if type(value) ~= 'function' then
+      error(tostring(value) .. " is not a function", 2)
+    end
+
+    local old_value = repl[key]
+
+    if old_value == nil then
+      error(sformat("The '%s' method does not exist", key), 2)
+    end
+
+    repl[key] = value
+  end
+
+  return setmetatable({}, mt)
+end
+
 function repl:loadplugin(chunk)
   local plugin_env = {
     repl     = {},
     before   = setup_before(self),
     after    = setup_after(self),
     around   = setup_around(self),
-    override = {},
+    override = setup_override(self),
     init     = function() end,
   }
   plugin_env._G = plugin_env
