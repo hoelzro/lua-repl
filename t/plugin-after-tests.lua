@@ -7,7 +7,7 @@ plan(24)
 
 local clone = repl:clone()
 
-do -- basic tests
+do -- basic tests {{{
   local with_plugin = clone:clone()
 
   local has_called_normal
@@ -48,9 +48,9 @@ do -- basic tests
   end)
 
   like(err, string.format('%d: 17 is not a function', line_no))
-end
+end -- }}}
 
-do -- arguments tests
+do -- arguments tests {{{
   local with_plugin = clone:clone()
   local orig_args
   local got_args
@@ -90,9 +90,9 @@ do -- arguments tests
   is(got_args[4], nil)
   is(got_args[5], 5)
   utils.cmp_tables(orig_args, got_args)
-end
+end -- }}}
 
-do -- exception tests
+do -- exception tests {{{
   local with_plugin = clone:clone()
 
   local has_called_original
@@ -111,9 +111,9 @@ do -- exception tests
 
   like(err, 'uh%-oh')
   ok(has_called_original)
-end
+end -- }}}
 
-do -- return value tests
+do -- return value tests {{{
   local with_plugin = clone:clone()
 
   function with_plugin:foo()
@@ -150,4 +150,4 @@ do -- return value tests
 
   results = utils.gather_results(with_plugin:baz())
   utils.cmp_tables(results, { n = 5, 1, nil, nil, nil, 5 })
-end
+end -- }}}

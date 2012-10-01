@@ -6,7 +6,7 @@ plan(2)
 
 local clone = repl:clone()
 
-do -- init() tests
+do -- init() tests {{{
   local loaded
 
   clone:loadplugin(function()
@@ -24,4 +24,4 @@ do -- init() tests
       end
     end)
   end, 'uh%-oh')
-end
+end -- }}}
