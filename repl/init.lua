@@ -224,9 +224,25 @@ local function setup_override(repl)
   return setmetatable({}, mt)
 end
 
+local function setup_repl(repl)
+  local mt = {}
+
+  function mt:__newindex(key, value)
+    local old_value = repl[key]
+
+    if old_value ~= nil then
+      error(sformat("The '%s' method already exists", key), 2)
+    end
+
+    repl[key] = value
+  end
+
+  return setmetatable({}, mt)
+end
+
 function repl:loadplugin(chunk)
   local plugin_env = {
-    repl     = {},
+    repl     = setup_repl(self),
     before   = setup_before(self),
     after    = setup_after(self),
     around   = setup_around(self),
