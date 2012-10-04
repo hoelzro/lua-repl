@@ -271,6 +271,19 @@ local function setup_repl(repl)
     repl[key] = value
   end
 
+  function mt:__index(key)
+    local value = repl[key]
+
+    if type(value) == 'function' then
+      -- XXX cache this?
+      return function(_, ...)
+        return value(repl, ...)
+      end
+    end
+
+    return value
+  end
+
   return setmetatable({}, mt)
 end
 
