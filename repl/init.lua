@@ -19,7 +19,8 @@
 -- @class repl
 --- This module implements the core functionality of a REPL.
 
-local repl         = { _buffer = '', _plugins = {} }
+-- XXX this should be a weak table   ↓
+local repl         = { _buffer = '', _plugins = {}, _features = {} }
 local select       = select
 local loadstring   = loadstring
 local dtraceback   = debug.traceback
@@ -111,7 +112,13 @@ function repl:clone()
     plugins_copy[k] = v
   end
 
-  return setmetatable({ _buffer = '', _plugins = plugins_copy }, { __index = self })
+  local features_copy = {}
+
+  for k, v in pairs(self._features) do
+    features_copy[k] = v
+  end
+
+  return setmetatable({ _buffer = '', _plugins = plugins_copy, _features = features_copy }, { __index = self })
 end
 
 --- Displays the given prompt to the user.  Must be overriden.
@@ -138,6 +145,10 @@ end
 -- @param plugin The plugin that the REPL may have loaded.
 function repl:hasplugin(plugin)
   return self._plugins[plugin]
+end
+
+function repl:hasfeature(feature)
+  return self._features[feature]
 end
 
 local function gather_results(...)
@@ -288,6 +299,16 @@ function repl:loadplugin(chunk)
 
   setfenv(chunk, plugin_env)
   chunk()
+
+  local features = plugin_env.features or {}
+
+  if type(features) == 'string' then
+    features = { features }
+  end
+
+  for _, feature in ipairs(features) do
+    self._features[feature] = true
+  end
 end
 
 return repl
