@@ -305,8 +305,14 @@ function repl:loadplugin(chunk)
     override = setup_override(self),
     init     = function() end,
   }
-  plugin_env._G = plugin_env
-  setmetatable(plugin_env, { __index = _G, __newindex = _G })
+
+  local function ro_globals(_, key, _)
+    error(sformat('global environment is read-only (key = %q)', key), 2)
+  end
+
+  plugin_env._G       = plugin_env
+  plugin_env.features = {}
+  setmetatable(plugin_env, { __index = _G, __newindex = ro_globals })
 
   setfenv(chunk, plugin_env)
   chunk()
