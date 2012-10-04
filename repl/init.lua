@@ -288,7 +288,6 @@ function repl:loadplugin(chunk)
 
   setfenv(chunk, plugin_env)
   chunk()
-  plugin_env.init()
 end
 
 return repl
