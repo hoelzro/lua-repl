@@ -253,6 +253,9 @@ local function setup_repl(repl)
 end
 
 function repl:loadplugin(chunk)
+  if self:hasplugin(chunk) then
+    error(sformat('plugin %q has already been loaded', tostring(chunk)), 2)
+  end
   self._plugins[chunk] = true
 
   local plugin_env = {
