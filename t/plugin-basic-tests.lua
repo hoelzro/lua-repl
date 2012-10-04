@@ -3,7 +3,7 @@ local utils = require 'test-utils'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(4)
+plan(8)
 
 local clone = repl:clone()
 
@@ -45,4 +45,39 @@ do -- loading the same plugin twice {{{
 
   repl:clone():loadplugin(plugin)
   repl:clone():loadplugin(plugin)
+end -- }}}
+
+do -- loading plugins by name {{{
+  local loaded
+
+  package.preload['repl.plugins.test'] = function()
+    loaded = true
+  end
+
+  clone:clone():loadplugin 'test'
+
+  ok(loaded)
+  loaded = false
+
+  clone:clone():loadplugin 'test'
+
+  ok(loaded, 'loading a plugin twice should initialize it twice')
+
+  package.preload['repl.plugins.test'] = function()
+    error 'uh-oh'
+  end
+
+  error_like(function()
+    clone:clone():loadplugin 'test'
+  end, 'uh%-oh')
+
+  package.preload['repl.plugins.test'] = nil
+
+  local line_no
+
+  local _, err = pcall(function()
+    line_no = utils.next_line_number()
+    clone:clone():loadplugin 'test'
+  end)
+  like(err, tostring(line_no) .. ': unable to locate plugin')
 end -- }}}
