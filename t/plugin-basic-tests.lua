@@ -3,7 +3,7 @@ local utils = require 'test-utils'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(16)
+plan(19)
 
 local clone = repl:clone()
 
@@ -128,3 +128,29 @@ do -- global tests {{{
 
   like(err, tostring(line_no) .. ': global environment is read%-only %(key = "foo"%)')
 end
+
+do -- ifplugin tests {{{
+  local clone = repl:clone()
+  local has_run
+
+  package.preload['repl.plugins.test'] = function()
+  end
+
+  clone:ifplugin('test', function()
+    has_run = true
+  end)
+
+  ok(not has_run)
+
+  clone:loadplugin 'test'
+
+  ok(has_run)
+
+  has_run = false
+
+  clone:ifplugin('test', function()
+    has_run = true
+  end)
+
+  ok(has_run)
+end -- }}}
