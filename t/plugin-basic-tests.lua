@@ -6,22 +6,18 @@ plan(2)
 
 local clone = repl:clone()
 
-do -- init() tests {{{
+do -- basic tests {{{
   local loaded
 
   clone:loadplugin(function()
-    function init()
-      loaded = true
-    end
+    loaded = true
   end)
 
   ok(loaded)
 
   error_like(function()
     clone:loadplugin(function()
-      function init()
-        error 'uh-oh'
-      end
+      error 'uh-oh'
     end)
   end, 'uh%-oh')
 end -- }}}
