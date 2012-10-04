@@ -19,7 +19,7 @@
 -- @class repl
 --- This module implements the core functionality of a REPL.
 
-local repl         = { _buffer = '' }
+local repl         = { _buffer = '', _plugins = {} }
 local select       = select
 local loadstring   = loadstring
 local dtraceback   = debug.traceback
@@ -105,7 +105,13 @@ end
 --- Creates a new REPL object, so you can override methods without fear.
 -- @return A REPL clone.
 function repl:clone()
-  return setmetatable({ _buffer = '' }, { __index = self })
+  local plugins_copy = {}
+
+  for k, v in pairs(self._plugins) do
+    plugins_copy[k] = v
+  end
+
+  return setmetatable({ _buffer = '', _plugins = plugins_copy }, { __index = self })
 end
 
 --- Displays the given prompt to the user.  Must be overriden.
@@ -126,6 +132,12 @@ end
 -- @see repl:traceback
 function repl:displayerror(err)
   error 'You must implement the displayerror method'
+end
+
+--- Checks whether this REPL object has loaded the given plugin.
+-- @param plugin The plugin that the REPL may have loaded.
+function repl:hasplugin(plugin)
+  return self._plugins[plugin]
 end
 
 local function gather_results(...)
@@ -241,6 +253,8 @@ local function setup_repl(repl)
 end
 
 function repl:loadplugin(chunk)
+  self._plugins[chunk] = true
+
   local plugin_env = {
     repl     = setup_repl(self),
     before   = setup_before(self),
