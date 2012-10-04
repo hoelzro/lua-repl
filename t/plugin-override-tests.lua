@@ -3,7 +3,7 @@ pcall(require, 'luarocks.loader')
 require 'Test.More'
 local utils = require 'test-utils'
 
-plan(23)
+plan(25)
 
 local clone = repl:clone()
 
@@ -150,3 +150,51 @@ do -- return value tests {{{
   results = utils.gather_results(with_plugin:baz())
   utils.cmp_tables(results, { n = 4, 1, nil, nil, 4 })
 end -- }}}
+
+do -- multiple advice, multiple plugins {{{
+  local with_plugin = clone:clone()
+  local calls       = {}
+
+  function with_plugin:foo()
+    calls[#calls + 1] = 'original'
+  end
+
+  with_plugin:loadplugin(function()
+    function override:foo()
+      calls[#calls + 1] = 'first'
+    end
+  end)
+
+  with_plugin:loadplugin(function()
+    function override:foo()
+      calls[#calls + 1] = 'second'
+    end
+  end)
+
+  with_plugin:foo()
+
+  utils.cmp_tables(calls, { 'second' })
+end
+
+do -- multiple advice, single plugin {{{
+  local with_plugin = clone:clone()
+  local calls       = {}
+
+  function with_plugin:foo()
+    calls[#calls + 1] = 'original'
+  end
+
+  with_plugin:loadplugin(function()
+    function override:foo()
+      calls[#calls + 1] = 'first'
+    end
+
+    function override:foo()
+      calls[#calls + 1] = 'second'
+    end
+  end)
+
+  with_plugin:foo()
+
+  utils.cmp_tables(calls, { 'second' })
+end

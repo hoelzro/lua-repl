@@ -3,7 +3,7 @@ pcall(require, 'luarocks.loader')
 require 'Test.More'
 local utils = require 'test-utils'
 
-plan(25)
+plan(27)
 
 local clone = repl:clone()
 
@@ -155,4 +155,62 @@ do -- return value tests {{{
 
   results = utils.gather_results(with_plugin:baz())
   utils.cmp_tables(results, { n = 4, 1, nil, nil, 4 })
+end -- }}}
+
+do -- multiple advice, multiple plugins {{{
+  local with_plugin = clone:clone()
+  local calls       = {}
+
+  function with_plugin:foo()
+    calls[#calls + 1] = 'original'
+  end
+
+  with_plugin:loadplugin(function()
+    function around:foo(orig)
+      calls[#calls + 1] = 'before_one'
+      orig()
+      calls[#calls + 1] = 'after_one'
+    end
+  end)
+
+  with_plugin:loadplugin(function()
+    function around:foo(orig)
+      calls[#calls + 1] = 'before_two'
+      orig()
+      calls[#calls + 1] = 'after_two'
+    end
+  end)
+
+  with_plugin:foo()
+
+  utils.cmp_tables(calls, { 'before_two', 'before_one', 'original',
+    'after_one', 'after_two' })
+end -- }}}
+
+do -- multiple advice, single plugin {{{
+  local with_plugin = clone:clone()
+  local calls       = {}
+
+  function with_plugin:foo()
+    calls[#calls + 1] = 'original'
+  end
+
+  with_plugin:loadplugin(function()
+    function around:foo(orig)
+      calls[#calls + 1] = 'before_one'
+      orig()
+      calls[#calls + 1] = 'after_one'
+    end
+
+    function around:foo(orig)
+      calls[#calls + 1] = 'before_two'
+      orig()
+      calls[#calls + 1] = 'after_two'
+    end
+  end)
+
+  with_plugin:foo()
+
+  utils.cmp_tables(calls, { 'before_two', 'before_one', 'original',
+    'after_one', 'after_two' })
 end -- }}}
