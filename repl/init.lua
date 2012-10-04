@@ -19,8 +19,9 @@
 -- @class repl
 --- This module implements the core functionality of a REPL.
 
--- XXX this should be a weak table   ↓
-local repl         = { _buffer = '', _plugins = {}, _features = {} }
+local plugins_lookup_meta = { __mode = 'k' }
+
+local repl         = { _buffer = '', _plugins = setmetatable({}, plugins_lookup_meta), _features = {} }
 local select       = select
 local loadstring   = loadstring
 local dtraceback   = debug.traceback
@@ -106,7 +107,7 @@ end
 --- Creates a new REPL object, so you can override methods without fear.
 -- @return A REPL clone.
 function repl:clone()
-  local plugins_copy = {}
+  local plugins_copy = setmetatable({}, plugins_lookup_meta)
 
   for k, v in pairs(self._plugins) do
     plugins_copy[k] = v
