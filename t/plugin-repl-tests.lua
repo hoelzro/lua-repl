@@ -4,7 +4,7 @@ pcall(require, 'luarocks.loader')
 require 'Test.More'
 local utils = require 'test-utils'
 
-plan(4)
+plan(5)
 
 local clone = r:clone()
 
@@ -59,4 +59,16 @@ do -- conflict tests {{{
   end)
 
   like(err, tostring(line_no) .. ": The 'foo' method already exists")
+end -- }}}
+
+do -- proxy tests {{{
+  local clone = r:clone()
+
+  clone:loadplugin(function()
+    features = 'foo'
+  end)
+
+  clone:loadplugin(function()
+    ok(repl:hasfeature 'foo')
+  end)
 end -- }}}
