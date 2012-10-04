@@ -190,13 +190,6 @@ function repl:ifplugin(plugin, action)
   end
 end
 
-local function gather_results(...)
-  return {
-    n = select('#', ...),
-    ...,
-  }
-end
-
 local function setup_before(repl)
   local mt = {}
 
@@ -235,7 +228,7 @@ local function setup_after(repl)
     end
 
     repl[key] = function(...)
-      local results = gather_results(old_value(...))
+      local _, results = gather_results(true, old_value(...))
       value(...)
       return unpack(results, 1, results.n)
     end
