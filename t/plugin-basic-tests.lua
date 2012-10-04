@@ -3,7 +3,7 @@ local utils = require 'test-utils'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(14)
+plan(16)
 
 local clone = repl:clone()
 
@@ -105,3 +105,26 @@ do -- hasplugin tests {{{
   ok(child:hasplugin(plugin))
   ok(not grandchild:hasplugin(plugin))
 end -- }}}
+
+do -- global tests {{{
+  local clone = repl:clone()
+  local line_no
+
+  local _, err = pcall(function()
+    clone:loadplugin(function()
+      line_no = utils.next_line_number()
+      foo     = 17
+    end)
+  end)
+
+  like(err, tostring(line_no) .. ': global environment is read%-only %(key = "foo"%)')
+
+  _, err = pcall(function()
+    clone:loadplugin(function()
+      line_no = utils.next_line_number()
+      _G.foo  = 17
+    end)
+  end)
+
+  like(err, tostring(line_no) .. ': global environment is read%-only %(key = "foo"%)')
+end
