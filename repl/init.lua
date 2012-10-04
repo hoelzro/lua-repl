@@ -252,11 +252,28 @@ local function setup_repl(repl)
   return setmetatable({}, mt)
 end
 
+-- TODO use lua-procure for this (eventually)
+local function findchunk(name)
+  for _, loader in pairs(package.loaders) do
+    local chunk = loader(name)
+
+    if type(chunk) == 'function' then
+      return chunk
+    end
+  end
+
+  error('unable to locate plugin', 3)
+end
+
 function repl:loadplugin(chunk)
   if self:hasplugin(chunk) then
     error(sformat('plugin %q has already been loaded', tostring(chunk)), 2)
   end
   self._plugins[chunk] = true
+
+  if type(chunk) == 'string' then
+    chunk = findchunk('repl.plugins.' .. chunk)
+  end
 
   local plugin_env = {
     repl     = setup_repl(self),
