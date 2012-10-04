@@ -51,4 +51,6 @@ function console_repl:displayerror(err)
   print(err)
 end
 
+console_repl._features.console = true
+
 return console_repl
