@@ -3,7 +3,7 @@ local utils = require 'test-utils'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(8)
+plan(14)
 
 local clone = repl:clone()
 
@@ -80,4 +80,28 @@ do -- loading plugins by name {{{
     clone:clone():loadplugin 'test'
   end)
   like(err, tostring(line_no) .. ': unable to locate plugin')
+end -- }}}
+
+do -- hasplugin tests {{{
+  local child = repl:clone()
+
+  local plugin = function()
+  end
+
+  child:loadplugin(plugin)
+
+  local grandchild = child:clone()
+
+  ok(not repl:hasplugin(plugin))
+  ok(child:hasplugin(plugin))
+  ok(grandchild:hasplugin(plugin))
+
+  plugin = function()
+  end
+
+  child:loadplugin(plugin)
+
+  ok(not repl:hasplugin(plugin))
+  ok(child:hasplugin(plugin))
+  ok(not grandchild:hasplugin(plugin))
 end -- }}}
