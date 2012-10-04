@@ -151,6 +151,12 @@ function repl:hasfeature(feature)
   return self._features[feature]
 end
 
+function repl:requirefeature(feature)
+  if not self:hasfeature(feature) then
+    error(sformat('required feature %q not present', feature), 2)
+  end
+end
+
 local function gather_results(...)
   return {
     n = select('#', ...),
