@@ -118,7 +118,11 @@ function repl:clone()
     features_copy[k] = v
   end
 
-  return setmetatable({ _buffer = '', _plugins = plugins_copy, _features = features_copy }, { __index = self })
+  return setmetatable({
+    _buffer   = '',
+    _plugins  = plugins_copy,
+    _features = features_copy,
+  }, { __index = self })
 end
 
 --- Displays the given prompt to the user.  Must be overriden.
