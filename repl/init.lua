@@ -21,7 +21,7 @@
 
 local plugins_lookup_meta = { __mode = 'k' }
 
-local repl         = { _buffer = '', _plugins = setmetatable({}, plugins_lookup_meta), _features = {} }
+local repl         = { _buffer = '', _plugins = setmetatable({}, plugins_lookup_meta), _features = {}, _ifplugin = {} }
 local select       = select
 local loadstring   = loadstring
 local dtraceback   = debug.traceback
@@ -119,10 +119,23 @@ function repl:clone()
     features_copy[k] = v
   end
 
+  local ifplugin_copy = {}
+
+  for k, v in pairs(self._ifplugin) do
+    local copy = {}
+
+    for k2, v2 in pairs(v) do
+      copy[k2] = v2
+    end
+
+    ifplugin_copy[k] = copy
+  end
+
   return setmetatable({
     _buffer   = '',
     _plugins  = plugins_copy,
     _features = features_copy,
+    _ifplugin = ifplugin_copy,
   }, { __index = self })
 end
 
@@ -159,6 +172,21 @@ end
 function repl:requirefeature(feature)
   if not self:hasfeature(feature) then
     error(sformat('required feature %q not present', feature), 2)
+  end
+end
+
+function repl:ifplugin(plugin, action)
+  if self:hasplugin(plugin) then
+    action()
+  else
+    local pending_actions = self._ifplugin[plugin]
+
+    if not pending_actions then
+      pending_actions        = {}
+      self._ifplugin[plugin] = pending_actions
+    end
+
+    pending_actions[#pending_actions + 1] = action
   end
 end
 
@@ -306,6 +334,9 @@ function repl:loadplugin(chunk)
   end
   self._plugins[chunk] = true
 
+  local actions         = self._ifplugin[chunk]
+  self._ifplugin[chunk] = nil
+
   if type(chunk) == 'string' then
     chunk = findchunk('repl.plugins.' .. chunk)
   end
@@ -342,6 +373,12 @@ function repl:loadplugin(chunk)
     end
 
     self._features[feature] = true
+  end
+
+  if actions then
+    for _, action in ipairs(actions) do
+      action()
+    end
   end
 end
 
