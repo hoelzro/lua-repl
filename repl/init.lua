@@ -35,6 +35,16 @@ local function gather_results(success, ...)
   return success, { n = n, ... }
 end
 
+local function tcopy(t, copy)
+  copy = copy or {}
+
+  for k, v in pairs(t) do
+    copy[k] = v
+  end
+
+  return copy
+end
+
 --- Returns the prompt for a given level.
 -- @param level The prompt level. Either 1 or 2.
 function repl:getprompt(level)
@@ -107,28 +117,12 @@ end
 --- Creates a new REPL object, so you can override methods without fear.
 -- @return A REPL clone.
 function repl:clone()
-  local plugins_copy = setmetatable({}, plugins_lookup_meta)
-
-  for k, v in pairs(self._plugins) do
-    plugins_copy[k] = v
-  end
-
-  local features_copy = {}
-
-  for k, v in pairs(self._features) do
-    features_copy[k] = v
-  end
-
+  local plugins_copy  = tcopy(self._plugins, setmetatable({}, plugins_lookup_meta))
+  local features_copy = tcopy(self._features)
   local ifplugin_copy = {}
 
   for k, v in pairs(self._ifplugin) do
-    local copy = {}
-
-    for k2, v2 in pairs(v) do
-      copy[k2] = v2
-    end
-
-    ifplugin_copy[k] = copy
+    ifplugin_copy[k] = tcopy(v)
   end
 
   return setmetatable({
