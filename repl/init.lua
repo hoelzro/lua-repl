@@ -313,6 +313,10 @@ function repl:loadplugin(chunk)
   end
 
   for _, feature in ipairs(features) do
+    if self._features[feature] then
+      error(sformat('feature %q already present', feature), 2)
+    end
+
     self._features[feature] = true
   end
 end
