@@ -3,7 +3,7 @@ local utils = require 'test-utils'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(19)
+plan(21)
 
 local clone = repl:clone()
 
@@ -153,4 +153,26 @@ do -- ifplugin tests {{{
   end)
 
   ok(has_run)
+end -- }}}
+
+do -- ifplugin multiple times {{{
+  local clone = repl:clone()
+  local has_run
+  local has_run2
+
+  package.preload['repl.plugins.test'] = function()
+  end
+
+  clone:ifplugin('test', function()
+    has_run = true
+  end)
+
+  clone:ifplugin('test', function()
+    has_run2 = true
+  end)
+
+  clone:loadplugin 'test'
+
+  ok(has_run)
+  ok(has_run2)
 end -- }}}
