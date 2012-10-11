@@ -17,3 +17,5 @@ Future
 
   * Steal ideas from ilua
   * Async implementation
+  * GTK implementation
+  * IRC bot implementation
