@@ -373,4 +373,8 @@ end
 function repl:shutdown()
 end
 
+function repl:getcontext()
+  return _G
+end
+
 return repl
