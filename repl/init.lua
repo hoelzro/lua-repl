@@ -369,4 +369,8 @@ function repl:loadplugin(chunk)
   end
 end
 
+-- XXX how to guarantee this gets called?
+function repl:shutdown()
+end
+
 return repl

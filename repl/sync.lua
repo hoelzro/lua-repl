@@ -33,6 +33,7 @@ function sync_repl:run()
     local level = self:handleline(line)
     self:prompt(level)
   end
+  self:shutdown()
 end
 
 --- Returns an iterator that yields lines to be evaluated.
