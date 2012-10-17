@@ -1,11 +1,3 @@
-0.3
-===
-
-  * Fix documentation
-  * Plugins
-    * plugin methods API
-    * documentation
-
 Future
 ======
 
