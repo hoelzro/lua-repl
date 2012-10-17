@@ -18,7 +18,6 @@ build = {
     ['repl.sync']             = 'repl/sync.lua',
     ['repl.console']          = 'repl/console.lua',
     ['repl.linenoise']        = 'repl/linenoise.lua',
-    ['repl.util.completions'] = 'repl/util/completions.lua',
   },
   install = {
       bin = { 'rep.lua' },
