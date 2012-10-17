@@ -82,12 +82,16 @@ function repl:detectcontinue(err)
   return smatch(err, "'<eof>'$")
 end
 
+function repl:compilechunk(chunk)
+  return loadstring(chunk, self:name())
+end
+
 --- Evaluates a line of input, and displays return value(s).
 -- @param line The line to evaluate
 -- @return The prompt level (1 or 2)
 function repl:handleline(line)
   local chunk  = self._buffer .. line
-  local f, err = loadstring(chunk, self:name())
+  local f, err = self:compilechunk(chunk)
 
   if f then
     self._buffer = ''
