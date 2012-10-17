@@ -87,11 +87,7 @@ end
 -- @return The prompt level (1 or 2)
 function repl:handleline(line)
   local chunk  = self._buffer .. line
-  local f, err = loadstring('return ' .. chunk, self:name())
-
-  if not f then
-    f, err = loadstring(chunk, self:name())
-  end
+  local f, err = loadstring(chunk, self:name())
 
   if f then
     self._buffer = ''
