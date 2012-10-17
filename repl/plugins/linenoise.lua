@@ -41,6 +41,19 @@ repl:ifplugin('completion', function()
 end)
 
 repl:ifplugin('history', function()
+  repl:setuphistorycallbacks {
+    load = function(filename)
+      ln.historyload(filename)
+    end,
+
+    addline = function(line)
+      ln.historyadd(line)
+    end,
+
+    save = function(filename)
+      ln.historysave(filename)
+    end,
+  }
 end)
 
 features = 'input'
