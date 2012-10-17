@@ -16,41 +16,36 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
--- @class repl.console
---- This module implements a command line-based REPL,
---- similar to the standalone Lua interpreter.
+-- A plugin that runs code in $HOME/.rep.lua before the REPL starts
 
-local sync_repl    = require 'repl.sync'
-local console_repl = sync_repl:clone()
-local stdout       = io.stdout
-local stdin        = io.stdin
-local print        = print
-local unpack       = unpack
-
--- @see repl:showprompt(prompt)
-function console_repl:showprompt(prompt)
-  stdout:write(prompt .. ' ')
+local function readable(filename)
+  local f = io.open(filename, 'r')
+  if not f then
+    return false
+  end
+  f:close()
+  return true
 end
 
--- @see repl.sync:lines()
-function console_repl:lines()
-  return stdin:lines()
-end
+local function init()
+  local home = os.getenv 'HOME'
 
--- @see repl:displayresults(results)
-function console_repl:displayresults(results)
-  if results.n == 0 then
+  if not home then
     return
   end
 
-  print(unpack(results, 1, results.n))
+  local rcfile = home .. '/.rep.lua'
+
+  if not readable(rcfile) then
+    return
+  end
+
+  local chunk = assert(loadfile(rcfile))
+  local env   = setmetatable({ repl      = repl }, { __index = _G, __newindex = _G })
+
+  setfenv(chunk, env)
+
+  chunk()
 end
 
--- @see repl:displayerror(err)
-function console_repl:displayerror(err)
-  print(err)
-end
-
-console_repl._features.console = true
-
-return console_repl
+init()

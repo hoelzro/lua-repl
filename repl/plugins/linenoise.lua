@@ -16,41 +16,44 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
--- @class repl.console
---- This module implements a command line-based REPL,
---- similar to the standalone Lua interpreter.
+-- A plugin that uses linenoise (https://github.com/hoelzro/lua-linenoise) for prompting
 
-local sync_repl    = require 'repl.sync'
-local console_repl = sync_repl:clone()
-local stdout       = io.stdout
-local stdin        = io.stdin
-local print        = print
-local unpack       = unpack
+local ln = require 'linenoise'
 
--- @see repl:showprompt(prompt)
-function console_repl:showprompt(prompt)
-  stdout:write(prompt .. ' ')
+repl:requirefeature 'console'
+
+function override:showprompt(prompt)
+  self._prompt = prompt -- XXX how do we make sure other plugins don't step on this?
 end
 
--- @see repl.sync:lines()
-function console_repl:lines()
-  return stdin:lines()
-end
-
--- @see repl:displayresults(results)
-function console_repl:displayresults(results)
-  if results.n == 0 then
-    return
+function override:lines()
+  return function()
+    return ln.linenoise(self._prompt .. ' ')
   end
-
-  print(unpack(results, 1, results.n))
 end
 
--- @see repl:displayerror(err)
-function console_repl:displayerror(err)
-  print(err)
-end
+repl:ifplugin('completion', function()
+  ln.setcompletion(function(completions, line)
+    repl:complete(line, function(completion)
+      ln.addcompletion(completions, completion)
+    end)
+  end)
+end)
 
-console_repl._features.console = true
+repl:ifplugin('history', function()
+  repl:setuphistorycallbacks {
+    load = function(filename)
+      ln.historyload(filename)
+    end,
 
-return console_repl
+    addline = function(line)
+      ln.historyadd(line)
+    end,
+
+    save = function(filename)
+      ln.historysave(filename)
+    end,
+  }
+end)
+
+features = 'input'

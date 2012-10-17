@@ -1,4 +1,5 @@
 local sync = require 'repl.sync'
+pcall(require, 'luarocks.loader')
 require 'Test.More'
 
 plan(13)
@@ -14,11 +15,11 @@ function clone:lines()
   end
 
   return iterator, {
-    'foo',
-    '1',
-    '"bar"',
-    '{}',
-    '1, 2, 3',
+    'return foo',
+    'return 1',
+    'return "bar"',
+    'return {}',
+    'return 1, 2, 3',
   }
 end
 
