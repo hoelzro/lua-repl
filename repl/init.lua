@@ -85,7 +85,7 @@ end
 --- Evaluates a line of input, and displays return value(s).
 -- @param line The line to evaluate
 -- @return The prompt level (1 or 2)
-function repl:evaluate(line)
+function repl:handleline(line)
   local chunk  = self._buffer .. line
   local f, err = loadstring('return ' .. chunk, self:name())
 
