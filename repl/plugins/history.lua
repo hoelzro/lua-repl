@@ -18,23 +18,36 @@
 
 local history_file
 
+local function invokecallback(self, name, ...)
+  local impl = self._history_callbacks[name]
+  return impl(...)
+end
+
 local function init()
   if os.getenv 'HOME' then
     history_file = os.getenv('HOME') .. '/.rep.lua.history'
   end
+end
+
+-- XXX I don't know if this callback setup way
+--     is the best way to go about this (in fact
+--     I'm pretty sure it isn't), but I just need
+--     something that works right now.
+function repl:setuphistorycallbacks(callbacks)
+  self._history_callbacks = callbacks
 
   if history_file then
-    ln.historyload(history_file)
+    invokecallback(self, 'load', history_file)
   end
 end
 
 function after:handleline(line)
-  ln.historyadd(line)
+  invokecallback(self, 'addline', line)
 end
 
 function before:shutdown()
   if history_file then
-    ln.historysave(history_file)
+    invokecallback(self, 'save', history_file)
   end
 end
 
