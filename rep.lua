@@ -20,9 +20,13 @@
 
 -- Not as cool a name as re.pl, but I tried.
 
-local repl = require 'repl.console'
+local repl          = require 'repl.console'
+local has_linenoise = pcall(require, 'linenoise')
 
-repl:loadplugin 'linenoise'
+if has_linenoise then
+  repl:loadplugin 'linenoise'
+end
+
 repl:loadplugin 'history'
 repl:loadplugin 'completion'
 repl:loadplugin 'autoreturn'
