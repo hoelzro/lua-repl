@@ -23,10 +23,10 @@ do -- name tests
   is(repl:name(), 'REPL')
 end
 
-do -- evaluate abstract tests
+do -- handleline abstract tests
   is(_G.testresult, nil)
   error_like(function()
-    repl:evaluate '_G.testresult = 17'
+    repl:handleline '_G.testresult = 17'
   end, 'You must implement the displayresults method')
   is(_G.testresult, 17)
 end

@@ -37,12 +37,12 @@ do -- prompt tests
   is(prompt, 'lua>>')
 end
 
-do -- evaluate tests
+do -- handleline tests
   is(_G.testresult, nil)
   is(results, nil)
 
   lives_ok(function()
-    clone:evaluate '_G.testresult = 18'
+    clone:handleline '_G.testresult = 18'
   end)
 
   is(_G.testresult, 18)
@@ -52,7 +52,7 @@ do -- evaluate tests
   is(#results, 0)
 
   lives_ok(function()
-    clone:evaluate 'return 19'
+    clone:handleline 'return 19'
   end)
 
   is(type(results), 'table')
@@ -61,7 +61,7 @@ do -- evaluate tests
   is(results[1], 19)
 
   lives_ok(function()
-    clone:evaluate 'return 20, 21, 22'
+    clone:handleline 'return 20, 21, 22'
   end)
 
   is(type(results), 'table')
@@ -72,7 +72,7 @@ do -- evaluate tests
   is(results[3], 22)
 
   lives_ok(function()
-    clone:evaluate 'return 1, nil, nil, nil, nil, nil, nil, 2'
+    clone:handleline 'return 1, nil, nil, nil, nil, nil, nil, 2'
   end)
 
   is(type(results), 'table')
@@ -86,7 +86,7 @@ end
 
 do -- error handling tests
   lives_ok(function()
-    clone:evaluate '3 4'
+    clone:handleline '3 4'
   end)
 
   isnt(type(errmsg), 'nil')
@@ -94,7 +94,7 @@ do -- error handling tests
   errmsg = nil
 
   lives_ok(function()
-    clone:evaluate 'error "foo"'
+    clone:handleline 'error "foo"'
   end)
 
   like(errmsg, 'foo')
@@ -105,9 +105,9 @@ do -- multi-line input tests
   _G.t = {}
 
   lives_ok(function()
-    clone:evaluate 'for i = 1, 3 do'
-    clone:evaluate '  table.insert(_G.t, i)'
-    clone:evaluate 'end'
+    clone:handleline 'for i = 1, 3 do'
+    clone:handleline '  table.insert(_G.t, i)'
+    clone:handleline 'end'
   end)
 
   is(errmsg, nil)
