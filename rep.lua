@@ -25,5 +25,6 @@ local repl = require 'repl.console'
 repl:loadplugin 'linenoise'
 repl:loadplugin 'history'
 repl:loadplugin 'completion'
+repl:loadplugin 'autoreturn'
 
 repl:run()
