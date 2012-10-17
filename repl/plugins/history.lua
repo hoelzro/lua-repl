@@ -19,6 +19,10 @@
 local history_file
 
 local function invokecallback(self, name, ...)
+  if not self._history_callbacks then
+    return
+  end
+
   local impl = self._history_callbacks[name]
   return impl(...)
 end
