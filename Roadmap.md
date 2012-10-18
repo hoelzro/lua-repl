@@ -14,3 +14,4 @@ Future
   * Async implementation
   * GTK implementation
   * IRC bot implementation
+  * Awesome library
