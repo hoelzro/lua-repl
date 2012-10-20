@@ -33,6 +33,12 @@ local has_linenoise = pcall(require, 'linenoise')
 
 if has_linenoise then
   repl:loadplugin 'linenoise'
+else
+  local has_rlwrap = os.execute('which rlwrap >/dev/null 2>/dev/null') == 0
+
+  if has_rlwrap then
+    repl:loadplugin 'rlwrap'
+  end
 end
 
 repl:loadplugin 'history'
