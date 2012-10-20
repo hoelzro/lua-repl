@@ -49,7 +49,7 @@ end
 --- Returns the prompt for a given level.
 -- @param level The prompt level. Either 1 or 2.
 function repl:getprompt(level)
-  return level == 1 and 'lua>' or 'lua>>'
+  return level == 1 and '>' or '>>'
 end
 
 --- Displays a prompt for the given prompt level.
