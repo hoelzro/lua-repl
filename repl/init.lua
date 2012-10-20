@@ -25,6 +25,7 @@ local repl         = { _buffer = '', _plugins = setmetatable({}, plugins_lookup_
 local select       = select
 local loadstring   = loadstring
 local dtraceback   = debug.traceback
+local setfenv      = setfenv
 local setmetatable = setmetatable
 local sformat      = string.format
 local smatch       = string.match
@@ -96,6 +97,7 @@ function repl:handleline(line)
   if f then
     self._buffer = ''
 
+    setfenv(f, self:getcontext())
     local success, results = gather_results(xpcall(f, function(...) return self:traceback(...) end))
     if success then
       self:displayresults(results)
