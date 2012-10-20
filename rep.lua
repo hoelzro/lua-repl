@@ -32,4 +32,5 @@ repl:loadplugin 'completion'
 repl:loadplugin 'autoreturn'
 repl:loadplugin 'rcfile'
 
+print('Lua REPL ' .. tostring(repl.VERSION))
 repl:run()
