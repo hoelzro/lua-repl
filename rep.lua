@@ -34,10 +34,18 @@ local has_linenoise = pcall(require, 'linenoise')
 if has_linenoise then
   repl:loadplugin 'linenoise'
 else
+  -- XXX check that we're not receiving input from a non-tty
   local has_rlwrap = os.execute('which rlwrap >/dev/null 2>/dev/null') == 0
 
-  if has_rlwrap then
-    repl:loadplugin 'rlwrap'
+  if has_rlwrap and not os.getenv 'LUA_REPL_RLWRAP' then
+    local lowest_index = -1
+
+    while arg[lowest_index] ~= nil do
+      lowest_index = lowest_index - 1
+    end
+    lowest_index = lowest_index + 1
+    os.execute(string.format('LUA_REPL_RLWRAP=1 rlwrap %q %q', arg[lowest_index], arg[0]))
+    return
   end
 end
 
