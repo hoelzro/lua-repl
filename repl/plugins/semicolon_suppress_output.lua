@@ -18,16 +18,19 @@
 
 local smatch = string.match
 
+-- XXX will this affect any other plugins?
 function around:compilechunk(orig, chunk)
-  local f, err
+  local f, err = orig(self, chunk)
+
+  if not f then
+    return f, err
+  end
 
   if smatch(chunk, ';%s*$') then
-    f = orig(self, chunk .. ' return')
-
-    if f then
-      return f
+    return function()
+      f()
     end
   end
 
-  return orig(self, chunk)
+  return f
 end
