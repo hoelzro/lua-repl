@@ -1,3 +1,12 @@
+0.4   XXX XX XXXX
+      - The repl object now has a VERSION property.
+      - Overriding/augmenting getcontext will actually have an effect.
+      - Change the example REPL's prompt to resemble the standalone interpreter's
+      - The example REPL now prints a welcome message
+      - If linenoise is not available and rlwrap is, the example REPL falls back to rlwrap
+      - Added some new plugins
+        - semicolon_suppress_output
+
 0.3   Oct 17 2012
       - Add plugins API.
       - Add a bunch of plugins.
