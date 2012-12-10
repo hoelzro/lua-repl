@@ -31,7 +31,8 @@ Future
   * Steal ideas from luaish
     * Shell commands (lines beginning with ., filename completion)
   * Steal ideas from http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print\_loop
-  * Steal ideas from pry, ipython, Devel::REPL, Factor REPL
+  * Steal ideas from pry, ipython, bpython, Devel::REPL, Factor REPL
+  * Steal ideas from https://github.com/tpope/vim-foreplay
   * Async implementation
   * GTK implementation
   * IRC bot implementation
