@@ -5,8 +5,15 @@
   * Process Lua command line options with rep.lua
   * Verify that it works with LuaJIT, Lua 5.0, Lua 5.2, LuaJ or something
   * Asynchronous example (GTK+?)
-  * __pretty support for pretty print plugin
-  * __complete support for completion plugin
+  * \_\_pretty support for pretty print plugin
+  * \_\_complete support for completion plugin
+  * Rename rep.lua to something more easily typable
+  * Documentation changes
+    * Clearly reference PLUGINS.md from README.md
+    * Clearly reference rep.lua (or whatever I call it in the future) from README.md
+    * Make sure documentation on ~/.rep.lua is clear
+    * Move docs into doc/
+    * Make sure we talk up autocompletion in plugins.md (and mention in readme.md that many default/optional behaviors are present there)
 
 Future
 ======
