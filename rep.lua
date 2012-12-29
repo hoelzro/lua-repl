@@ -20,14 +20,6 @@
 
 -- Not as cool a name as re.pl, but I tried.
 
-if #arg > 0 then
-  local filename = arg[1]
-  table.remove(arg, 1)
-  local chunk = assert(loadfile(filename))
-  chunk(unpack(arg))
-  return
-end
-
 local repl          = require 'repl.console'
 local has_linenoise = pcall(require, 'linenoise')
 
