@@ -1,7 +1,6 @@
 0.4
 ===
 
-  * Run Lua scripts with rep.lua (done, may remove)
   * Process Lua command line options with rep.lua
   * Verify that it works with LuaJIT, Lua 5.0, Lua 5.2, LuaJ or something
   * __pretty support for pretty print plugin
