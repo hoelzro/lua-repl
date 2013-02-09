@@ -125,7 +125,13 @@ local function find_longstring_nest_level(s)
   return level
 end
 
-local function dump(pieces, seen, path, v, indent)
+local function dump(params)
+  local pieces = params.pieces
+  local seen   = params.seen
+  local path   = params.path
+  local v      = params.value
+  local indent = params.indent
+
   local t = type(v)
 
   if t == 'nil' or t == 'boolean' or t == 'number' then
@@ -152,7 +158,13 @@ local function dump(pieces, seen, path, v, indent)
       for j = 1, indent do
         pieces[#pieces + 1] = '  '
       end
-      dump(pieces, seen, path .. '[' .. tostring(i) .. ']', v, indent + 1)
+      dump {
+        pieces = pieces,
+        seen   = seen,
+        path   = path .. '[' .. tostring(i) .. ']',
+        value  = v,
+        indent = indent + 1,
+      }
       pieces[#pieces + 1] = colormap.punctuation ',\n'
       lastintkey = i
     end
@@ -167,11 +179,23 @@ local function dump(pieces, seen, path, v, indent)
           pieces[#pieces + 1] = colormap.ident(k)
         else
           pieces[#pieces + 1] = colormap.punctuation '['
-          dump(pieces, seen, path .. '.' .. tostring(k), k, indent + 1)
+          dump {
+            pieces = pieces,
+            seen   = seen,
+            path   = path .. '.' .. tostring(k),
+            value  = k,
+            indent = indent + 1,
+          }
           pieces[#pieces + 1] = colormap.punctuation ']'
         end
         pieces[#pieces + 1] = colormap.punctuation ' = '
-        dump(pieces, seen, path .. '.' .. tostring(k), v, indent + 1)
+        dump {
+          pieces = pieces,
+          seen   = seen,
+          path   = path .. '.' .. tostring(k),
+          value  = v,
+          indent = indent + 1,
+        }
         pieces[#pieces + 1] = colormap.punctuation ',\n'
       end
     end
@@ -192,7 +216,13 @@ function override:displayresults(results)
   local pieces = {}
 
   for i = 1, results.n do
-    dump(pieces, {}, '<topvalue>', results[i], 1)
+    dump {
+      pieces = pieces,
+      seen   = {},
+      path   = '<topvalue>',
+      value  = results[i],
+      indent = 1,
+    }
     pieces[#pieces + 1] = '\n'
   end
 
