@@ -4,6 +4,7 @@
 
       --- Bug Fixes ---
         - Overriding/augmenting getcontext will actually have an effect.
+        - Fix pretty_print with 'unsupported' types
 
       --- Features/Enhancements ---
         - Change the example REPL's prompt to resemble the standalone interpreter's
