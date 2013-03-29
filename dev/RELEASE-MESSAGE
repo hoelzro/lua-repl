@@ -1,0 +1,21 @@
+To: <lua-l@lists.lua.org>
+Subject: [ANN] lua-repl $VERSION
+
+Hi everyone,
+
+I'm happy to announce a new version of lua-repl!
+
+For those of you who aren't aware of it, lua-repl is a library to make
+it easy to embed a REPL similar to the standalone interpreter in your
+Lua application.  It also comes with a suite of plugins for enhancing
+itself, as well as a "demo" console REPL that may be used as an
+alternative to the standalone REPL (named rep.lua).
+
+$CHANGE_SUMMARY
+
+The source for lua-repl is located on Github:
+https://github.com/hoelzro/lua-repl.  The release tarball is here:
+https://github.com/hoelzro/lua-repl/archive/$VERSION.tar.gz
+
+Thanks,
+Rob
