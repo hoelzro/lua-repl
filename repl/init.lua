@@ -21,7 +21,7 @@
 
 local plugins_lookup_meta = { __mode = 'k' }
 
-local repl         = { _buffer = '', _plugins = setmetatable({}, plugins_lookup_meta), _features = {}, _ifplugin = {}, VERSION = 0.3 }
+local repl         = { _buffer = '', _plugins = setmetatable({}, plugins_lookup_meta), _features = {}, _ifplugin = {}, VERSION = 0.4 }
 local select       = select
 local loadstring   = loadstring
 local dtraceback   = debug.traceback
