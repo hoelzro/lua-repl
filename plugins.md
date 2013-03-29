@@ -44,6 +44,10 @@ Hooks into the linenoise library.  Allows the use of tab completion and history.
 Loads Lua code in `$HOME/.rep.lua` if the file exists.  The repl object is provided to the file in a variable named `repl`, so
 users may load plugins of their choosing.
 
+## semicolon_suppress_output
+
+Suppresses automatic printing of an expression's result if the expression ends in a semicolon.
+
 # Creating a Plugin
 
 If you would like to create your own plugin, it must be in a file under `repl/plugins/` in your `package.path`.
