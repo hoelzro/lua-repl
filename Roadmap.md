@@ -23,6 +23,7 @@ Future
     * test: iffeature
     * test: using advice from within ifplugin/iffeature
     * luaish plugin
+    * moonscript plugin - compile Moonscript instead of Lua
   * Steal ideas from ilua
     * Variables in ilua must be declared before use
     * -L is like -l, except it automatically brings it into the global NS
