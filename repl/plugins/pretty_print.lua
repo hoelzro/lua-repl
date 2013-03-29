@@ -82,6 +82,7 @@ if term then
     boolean     = term.colors.green,
     number      = term.colors.cyan,
     path        = term.colors.white,
+    misc        = term.colors.magenta,
   }
 end
 
@@ -206,7 +207,7 @@ local function dump(params)
 
     pieces[#pieces + 1] = colormap.punctuation '}'
   else
-    error(format('Cannot print type \'%s\'', t))
+    pieces[#pieces + 1] = colormap.misc(tostring(v))
   end
 end
 
