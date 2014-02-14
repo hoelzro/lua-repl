@@ -94,13 +94,43 @@ local function isident(s)
   return type(s) == 'string' and not keywords[s] and s:match('^[a-zA-Z_][a-zA-Z0-9_]*$')
 end
 
+-- most of these are arbitrary, I *do* want numbers first, though
+local type_order = {
+  number       = 0,
+  string       = 1,
+  userdata     = 2,
+  table        = 3,
+  thread       = 4,
+  boolean      = 5,
+  ['function'] = 6,
+}
+
+local function cross_type_order(a, b)
+  local pos_a = type_order[ type(a) ]
+  local pos_b = type_order[ type(b) ]
+
+  if pos_a == pos_b then
+    return a < b
+  else
+    return pos_a < pos_b
+  end
+end
+
 local function sortedpairs(t)
   local keys = {}
 
+  local seen_non_string
+
   for k in pairs(t) do
     keys[#keys + 1] = k
+
+    if not seen_non_string and type(k) ~= 'string' then
+      seen_non_string = true
+    end
   end
-  tsort(keys)
+
+  local sort_func = seen_non_string and cross_type_order or nil
+  tsort(keys, sort_func)
 
   local index = 1
   return function()
