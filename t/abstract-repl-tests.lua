@@ -5,8 +5,8 @@ require 'Test.More'
 plan(8)
 
 do -- getprompt tests
-  is(repl:getprompt(1), 'lua>')
-  is(repl:getprompt(2), 'lua>>')
+  is(repl:getprompt(1), '>')
+  is(repl:getprompt(2), '>>')
 end
 
 do -- prompt abstract tests

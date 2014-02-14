@@ -28,13 +28,13 @@ do -- prompt tests
     clone:prompt(1)
   end)
 
-  is(prompt, 'lua>')
+  is(prompt, '>')
 
   lives_ok(function()
     clone:prompt(2)
   end)
 
-  is(prompt, 'lua>>')
+  is(prompt, '>>')
 end
 
 do -- handleline tests
