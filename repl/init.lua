@@ -30,7 +30,7 @@ local sformat      = string.format
 local smatch       = string.match
 local error        = error
 
-setfenv = setfenv or function(f, t)
+local setfenv = setfenv or function(f, t)
     f = (type(f) == 'function' and f or debug.getinfo(f + 1, 'f').func)
     local name
     local up = 0
@@ -42,7 +42,6 @@ setfenv = setfenv or function(f, t)
 debug.upvaluejoin(f, up, function() return t end, 1) -- use unique upvalue, set it to f
     end
 end
-local setfenv = setfenv
 
 local function gather_results(success, ...)
   local n = select('#', ...)
