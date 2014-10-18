@@ -1,8 +1,8 @@
 package = 'luarepl'
-version = '0.4-1'
+version = '0.5-1'
 source  = {
-    url = 'https://github.com/hoelzro/lua-repl/archive/0.4.tar.gz',
-    dir = 'lua-repl-0.4',
+    url = 'https://github.com/hoelzro/lua-repl/archive/0.5.tar.gz',
+    dir = 'lua-repl-0.5',
 }
 description = {
   summary  = 'A reusable REPL component for Lua, written in Lua',
