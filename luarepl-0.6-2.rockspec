@@ -1,5 +1,5 @@
 package = 'luarepl'
-version = '0.6-1'
+version = '0.6-2'
 source  = {
     url = 'https://github.com/hoelzro/lua-repl/archive/0.6.tar.gz',
     dir = 'lua-repl-0.6',
