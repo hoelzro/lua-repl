@@ -98,7 +98,7 @@ end
 -- @param err The compilation error from Lua.
 -- @return Whether or not the input should continue after this line.
 function repl:detectcontinue(err)
-  return smatch(err, "'<eof>'$")
+  return smatch(err, "'<eof>'$") or smatch(err, "<eof>$")
 end
 
 function repl:compilechunk(chunk)
