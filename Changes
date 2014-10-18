@@ -1,3 +1,7 @@
+0.6   Oct 18 2014
+      --- Bug Fixes ---
+        - Fix rcfile plugin for Lua 5.2
+
 0.5   Oct 17 2014
       --- Features/Enhancements ---
         - Lua 5.2 support (Thanks to Simon Cozens!)
