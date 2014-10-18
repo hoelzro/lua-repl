@@ -1,3 +1,7 @@
+0.5   Oct 17 2014
+      --- Features/Enhancements ---
+        - Lua 5.2 support (Thanks to Simon Cozens!)
+
 0.4   Mar 29 2013
       --- API Additions ---
         - The repl object now has a VERSION property.
