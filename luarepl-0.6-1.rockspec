@@ -16,6 +16,7 @@ build = {
   type = 'builtin',
   modules = {
     ['repl']                                   = 'repl/init.lua',
+    ['repl.utils']                             = 'repl/utils.lua',
     ['repl.sync']                              = 'repl/sync.lua',
     ['repl.console']                           = 'repl/console.lua',
     ['repl.plugins.autoreturn']                = 'repl/plugins/autoreturn.lua',
