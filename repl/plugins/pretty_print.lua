@@ -99,10 +99,11 @@ local type_order = {
   number       = 0,
   string       = 1,
   userdata     = 2,
-  table        = 3,
-  thread       = 4,
-  boolean      = 5,
-  ['function'] = 6,
+  cdata        = 3,
+  table        = 4,
+  thread       = 5,
+  boolean      = 6,
+  ['function'] = 7,
 }
 
 local function cross_type_order(a, b)
@@ -110,7 +111,7 @@ local function cross_type_order(a, b)
   local pos_b = type_order[ type(b) ]
 
   if pos_a == pos_b then
-    return a < b
+    return tostring(a) < tostring(b)
   else
     return pos_a < pos_b
   end
