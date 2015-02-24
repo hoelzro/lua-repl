@@ -111,7 +111,7 @@ local function cross_type_order(a, b)
   local pos_b = type_order[ type(b) ]
 
   if pos_a == pos_b then
-    return a < b
+    return tostring(a) < tostring(b)
   else
     return pos_a < pos_b
   end
