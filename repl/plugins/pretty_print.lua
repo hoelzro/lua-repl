@@ -103,6 +103,7 @@ local type_order = {
   thread       = 4,
   boolean      = 5,
   ['function'] = 6,
+  cdata        = 7,
 }
 
 local function cross_type_order(a, b)
