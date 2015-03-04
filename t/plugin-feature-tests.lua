@@ -3,7 +3,7 @@ local utils = require 'test-utils'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(14)
+plan(19)
 
 do -- basic tests {{{
   local clone = repl:clone()
@@ -82,4 +82,50 @@ do -- clone:hasfeature {{{
   ok(not repl:hasfeature 'bar')
   ok(child:hasfeature 'bar')
   ok(not grandchild:hasfeature 'bar')
+end -- }}}
+
+do -- iffeature tests {{{
+  local clone = repl:clone()
+  local has_run
+
+  clone:iffeature('foo', function()
+    has_run = true
+  end)
+
+  ok(not has_run)
+
+  clone:loadplugin(function()
+    features = 'foo'
+  end)
+
+  ok(has_run)
+
+  has_run = false
+
+  clone:iffeature('foo', function()
+    has_run = true
+  end)
+
+  ok(has_run)
+end -- }}}
+
+do -- iffeature multiple times {{{
+  local clone = repl:clone()
+  local has_run
+  local has_run2
+
+  clone:iffeature('foo', function()
+    has_run = true
+  end)
+
+  clone:iffeature('foo', function()
+    has_run2 = true
+  end)
+
+  clone:loadplugin(function()
+    features = 'foo'
+  end)
+
+  ok(has_run)
+  ok(has_run2)
 end -- }}}
