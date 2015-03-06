@@ -35,6 +35,36 @@ local setfenv = setfenv or function(f, t)
   end
 end
 
+--- Tests wheter an expression ends in an unfinished string literal.
+-- @return First position in the unfinished string literal or `nil`.
+local function ends_in_unfinished_string(expr)
+  local position = 0
+  local quote
+  local current_delimiter
+  local last_unmatched_start
+  while true do
+    -- find all quotes:
+    position, quote = expr:match('()([\'"])', position+1)
+    if not position then break end
+    -- if we're currently in a string:
+    if current_delimiter then
+      -- would end current string?
+      if current_delimiter == quote then
+        -- not escaped?
+        if expr:sub(position-1, position-1) ~= '\\' then
+          current_delimiter = nil
+          last_unmatched_start = nil
+        end
+      end
+    else
+      current_delimiter = quote
+      last_unmatched_start = position+1
+    end
+  end
+  return last_unmatched_start
+end
+
 return {
   setfenv = setfenv,
+  ends_in_unfinished_string = ends_in_unfinished_string
 }

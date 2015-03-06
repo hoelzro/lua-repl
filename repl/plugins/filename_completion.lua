@@ -1,3 +1,4 @@
+local utils = require 'repl.utils'
 local lfs = require 'lfs'
 assert(lfs, 'LuaFileSystem is missing.')
 
@@ -30,7 +31,6 @@ end
 
 local function complete_file_name(file_name, expr, callback)
   local directory, partial_entry = split_parent_directory(file_name)
-  print('\n', partial_entry)
   for entry in lfs.dir(directory) do
     if not is_ignored_directory_entry(entry) and
        entry:find(partial_entry, 1, true) == 1 then
@@ -48,8 +48,7 @@ local function complete_directory(directory, expr, callback)
 end
 
 function after:complete(expr, callback)
-  local str = expr:match('[\'"](.-)$') -- TODO: String detection is suboptimal
-  if str then
+  if utils.ends_in_unfinished_string(expr) then
     local file_name = expr:match('[%w@/\\.-_+#$%%{}[%]!~ ]+$')
     if file_name then
       if file_name:find('[/\\]$') then
@@ -57,6 +56,8 @@ function after:complete(expr, callback)
       else
         complete_file_name(file_name, expr, callback)
       end
+    else
+      complete_directory('.', expr, callback)
     end
   end
 end
