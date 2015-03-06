@@ -32,7 +32,7 @@ function override:lines()
   end
 end
 
-repl:ifplugin('completion', function()
+repl:iffeature('completion', function()
   ln.setcompletion(function(completions, line)
     repl:complete(line, function(completion)
       ln.addcompletion(completions, completion)

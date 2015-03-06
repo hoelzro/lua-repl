@@ -28,6 +28,7 @@ build = {
     ['repl.plugins.pretty_print']              = 'repl/plugins/pretty_print.lua',
     ['repl.plugins.rcfile']                    = 'repl/plugins/rcfile.lua',
     ['repl.plugins.semicolon_suppress_output'] = 'repl/plugins/semicolon_suppress_output.lua',
+    ['repl.plugins.filename_completion']       = 'repl/plugins/filename_completion.lua',
   },
   install = {
       bin = { 'rep.lua' },
