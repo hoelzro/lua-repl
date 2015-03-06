@@ -1,6 +1,5 @@
 local utils = require 'repl.utils'
 local lfs = require 'lfs'
-assert(lfs, 'LuaFileSystem is missing.')
 
 repl:requirefeature 'completion'
 
@@ -21,7 +20,8 @@ local function split_parent_directory(file_name)
 end
 
 local function is_ignored_directory_entry(entry)
-  return entry == '.'
+  return entry == '.' or
+         entry == '..'
 end
 
 local function replace_end_of_string(str, suffix, replacement)
