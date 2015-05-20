@@ -1,4 +1,13 @@
-# REPL.lua - a reusable Lua REPL written in Lua
+# REPL.lua - a reusable Lua REPL written in Lua, and an alternative to /usr/bin/lua
+
+This project has two uses:
+
+  - An alternative to the standalone interpreter included with Lua, one that supports
+    things like plugins, tab completion, and automatic insertion of `return` in front
+    of expression.
+
+  - A REPL library you may embed in your application, to provide all of the niceties
+    of the standalone interpreter included with Lua and then some.
 
 Many software projects have made the choice to embed Lua in their projects to
 allow their users some extra flexibility.  Some of these projects would also
