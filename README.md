@@ -4,7 +4,7 @@ This project has two uses:
 
   - An alternative to the standalone interpreter included with Lua, one that supports
     things like plugins, tab completion, and automatic insertion of `return` in front
-    of expression.
+    of expressions.
 
   - A REPL library you may embed in your application, to provide all of the niceties
     of the standalone interpreter included with Lua and then some.
