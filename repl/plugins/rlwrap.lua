@@ -1,6 +1,4 @@
-#!/usr/bin/env lua
-
--- Copyright (c) 2011-2012 Rob Hoelz <rob@hoelz.ro>
+-- Copyright (c) 2011-2015 Rob Hoelz <rob@hoelz.ro>
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy of
 -- this software and associated documentation files (the "Software"), to deal in
@@ -18,21 +16,22 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
--- Not as cool a name as re.pl, but I tried.
-
-local repl          = require 'repl.console'
-local has_linenoise = pcall(require, 'linenoise')
-
-if has_linenoise then
-  repl:loadplugin 'linenoise'
+if os.getenv 'LUA_REPL_RLWRAP' then
+  features = 'input'
 else
-  pcall(repl.loadplugin, repl, 'rlwrap')
+  -- XXX check that we're not receiving input from a non-tty
+  local has_rlwrap = os.execute('which rlwrap >/dev/null 2>/dev/null') == 0
+
+  if not has_rlwrap then
+    error 'Please install rlwrap in order to use the rlwrap plugin'
+  end
+
+  local lowest_index = -1
+
+  while arg[lowest_index] ~= nil do
+    lowest_index = lowest_index - 1
+  end
+  lowest_index = lowest_index + 1
+  os.execute(string.format('LUA_REPL_RLWRAP=1 rlwrap %q %q', arg[lowest_index], arg[0]))
+  os.exit(0)
 end
-
-repl:loadplugin 'history'
-repl:loadplugin 'completion'
-repl:loadplugin 'autoreturn'
-repl:loadplugin 'rcfile'
-
-print('Lua REPL ' .. tostring(repl.VERSION))
-repl:run()
