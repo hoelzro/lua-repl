@@ -242,7 +242,7 @@ is ever loaded in the future, call `action` after that loading occurs.
 
 ## repl:loadplugin(plugin)
 
-Loads the given plugin.
+Loads the given plugin.  If the plugin returns a value, that value is returned.
 
 ## repl:shutdown()
 
