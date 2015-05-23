@@ -1,3 +1,4 @@
+-- vim:foldmethod=marker
 local repl  = require 'repl'
 local utils = require 'test-utils'
 pcall(require, 'luarocks.loader')

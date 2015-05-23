@@ -1,3 +1,4 @@
+-- vim:foldmethod=marker
 local r = require 'repl' -- we don't call it 'repl' so we don't shadow
                          -- repl in the plugin environment
 pcall(require, 'luarocks.loader')
