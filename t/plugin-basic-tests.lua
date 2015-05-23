@@ -4,7 +4,7 @@ local utils = require 'test-utils'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 
-plan(23)
+plan(25)
 
 local clone = repl:clone()
 
@@ -188,6 +188,12 @@ do -- plugin return value {{{
   local result2 = clone:loadplugin(function()
   end)
 
+  local result3, result4 = clone:loadplugin(function()
+    return 18, 19
+  end)
+
   is(result, 17)
   is(result2, nil)
+  is(result3, 18)
+  is(result4, 19)
 end -- }}}
