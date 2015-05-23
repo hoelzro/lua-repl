@@ -128,7 +128,7 @@ do -- global tests {{{
   end)
 
   like(err, tostring(line_no) .. ': global environment is read%-only %(key = "foo"%)')
-end
+end -- }}}
 
 do -- ifplugin tests {{{
   local clone = repl:clone()
