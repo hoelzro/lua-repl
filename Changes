@@ -1,4 +1,6 @@
 NEXT
+      --- Deprecations ---
+        - The default plugin set is now only loaded if no rcfile is found.
 
 0.7   May 22 2015
       --- Features/Enhancements ---
