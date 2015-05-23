@@ -1,8 +1,8 @@
 package = 'luarepl'
-version = '0.6-2'
+version = '0.7-1'
 source  = {
-    url = 'https://github.com/hoelzro/lua-repl/archive/0.6.tar.gz',
-    dir = 'lua-repl-0.6',
+    url = 'https://github.com/hoelzro/lua-repl/archive/0.7.tar.gz',
+    dir = 'lua-repl-0.7',
 }
 description = {
   summary  = 'A reusable REPL component for Lua, written in Lua',
@@ -29,6 +29,7 @@ build = {
     ['repl.plugins.rcfile']                    = 'repl/plugins/rcfile.lua',
     ['repl.plugins.semicolon_suppress_output'] = 'repl/plugins/semicolon_suppress_output.lua',
     ['repl.plugins.filename_completion']       = 'repl/plugins/filename_completion.lua',
+    ['repl.plugins.rlwrap']                    = 'repl/plugins/rlwrap.lua',
   },
   install = {
       bin = { 'rep.lua' },
