@@ -32,7 +32,13 @@ end
 repl:loadplugin 'history'
 repl:loadplugin 'completion'
 repl:loadplugin 'autoreturn'
-repl:loadplugin 'rcfile'
+local rcfile_loaded = repl:loadplugin 'rcfile'
+
+if rcfile_loaded and not repl.quiet_default_plugins then
+  print([[In Lua REPL 0.8, the default plugins will not be loaded if you have an
+rcfile at ~/.rep.lua.  Please see the README for tips on handling this and
+quieting this error message.]] .. '\n')
+end
 
 print('Lua REPL ' .. tostring(repl.VERSION))
 repl:run()
