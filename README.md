@@ -72,3 +72,28 @@ a `return ` or a `= ` in front of it.  If `linenoise` is installed,
 it also offers persistent history and tab completion.  It also offers
 a number of plugins; see plugins.md for a list of plugins that come
 with lua-repl.
+
+# Pending breaking of backwards compatability in 0.8
+
+Lua REPL 0.8 will break backwards compatability by disabling the loading of the
+default plugins (currently `linenoise`, `rlwrap`, `history`, `completion`, and
+`autoreturn`) if an rcfile is found for a user.  This is so that plugins may
+not be forced onto a user if they don't want them, or play tricks with their
+setup (see issue #47).  If you would like to continue using these plugins, please
+put the following code into your `~/.rep.lua`:
+
+```lua
+if repl.VERSION >= 0.8 then
+  -- default plugins
+  repl:loadplugin 'linenoise'
+  repl:loadplugin 'history'
+  repl:loadplugin 'completion'
+  repl:loadplugin 'autoreturn'
+end
+
+-- suppress warning message
+repl.quiet_default_plugins = true
+```
+
+As mentioned in the code snippet, `repl.quiet_default_plugins` suppresses the warning.
+You can remove this after upgrading to Lua REPL 0.8 when it is released.
