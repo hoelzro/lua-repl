@@ -371,7 +371,7 @@ function repl:loadplugin(chunk)
   setmetatable(plugin_env, { __index = _G, __newindex = ro_globals })
 
   setfenv(chunk, plugin_env)
-  chunk()
+  local result = chunk()
 
   local features = plugin_env.features or {}
 
@@ -400,6 +400,8 @@ function repl:loadplugin(chunk)
       action()
     end
   end
+
+  return result
 end
 
 -- XXX how to guarantee this gets called?
