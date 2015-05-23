@@ -48,6 +48,7 @@ local function init()
   setfenv(chunk, env)
 
   chunk()
+  return true
 end
 
-init()
+return init()
