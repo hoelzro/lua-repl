@@ -3,8 +3,13 @@ NEXT
         - iffeature is implemented, thanks to Henry Kielmann!
         - loadplugin now returns any values returned by the plugin function.
 
+      --- Deprecations ---
+        - 0.8 will break backwards compatability due a change in rcfile handling;
+          please consult the README for details.
+
       --- Plugins ---
         - we now have a filename completion plugin, thanks to Henry Kielmann!
+        - rlwrap functionality has been moved into a plugin.
 
 0.6   Oct 18 2014
       --- Bug Fixes ---
