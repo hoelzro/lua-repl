@@ -1,4 +1,6 @@
 NEXT
+
+0.7   May 22 2015
       --- Features/Enhancements ---
         - iffeature is implemented, thanks to Henry Kielmann!
         - loadplugin now returns any values returned by the plugin function.
