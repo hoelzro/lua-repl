@@ -21,23 +21,20 @@
 -- Not as cool a name as re.pl, but I tried.
 
 local repl          = require 'repl.console'
-local has_linenoise = pcall(require, 'linenoise')
-
-if has_linenoise then
-  repl:loadplugin 'linenoise'
-else
-  pcall(repl.loadplugin, repl, 'rlwrap')
-end
-
-repl:loadplugin 'history'
-repl:loadplugin 'completion'
-repl:loadplugin 'autoreturn'
 local rcfile_loaded = repl:loadplugin 'rcfile'
 
-if rcfile_loaded and not repl.quiet_default_plugins then
-  print([[In Lua REPL 0.8, the default plugins will not be loaded if you have an
-rcfile at ~/.rep.lua.  Please see the README for tips on handling this and
-quieting this error message.]] .. '\n')
+if not rcfile_loaded then
+  local has_linenoise = pcall(require, 'linenoise')
+
+  if has_linenoise then
+    repl:loadplugin 'linenoise'
+  else
+    pcall(repl.loadplugin, repl, 'rlwrap')
+  end
+
+  repl:loadplugin 'history'
+  repl:loadplugin 'completion'
+  repl:loadplugin 'autoreturn'
 end
 
 print('Lua REPL ' .. tostring(repl.VERSION))
