@@ -73,9 +73,11 @@ it also offers persistent history and tab completion.  It also offers
 a number of plugins; see plugins.md for a list of plugins that come
 with lua-repl.
 
-# Pending breaking of backwards compatability in 0.8
+# Backwards Compatability Changes
 
-Lua REPL 0.8 will break backwards compatability by disabling the loading of the
+## Removal of default plugins in 0.8
+
+Lua REPL 0.8 breaks backwards compatability by disabling the loading of the
 default plugins (currently `linenoise`, `rlwrap`, `history`, `completion`, and
 `autoreturn`) if an rcfile is found for a user.  This is so that plugins may
 not be forced onto a user if they don't want them, or play tricks with their
@@ -96,4 +98,4 @@ repl.quiet_default_plugins = true
 ```
 
 As mentioned in the code snippet, `repl.quiet_default_plugins` suppresses the warning.
-You can remove this after upgrading to Lua REPL 0.8 when it is released.
+You can remove this after upgrading to Lua REPL 0.8.
