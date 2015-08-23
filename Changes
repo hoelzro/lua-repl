@@ -1,5 +1,15 @@
 NEXT
 
+0.8
+      Aug 23 2015
+      --- Bug Fixes ---
+        - Use package.searchers if package.loaders is not available (thanks, Simon Cozens!)
+
+      --- Backwards Incompatible Changes ---
+        - The default plugin bundle is no longer loaded if an rcfile is present.  See
+          https://github.com/hoelzro/lua-repl/blob/0.8/README.md#removal-of-default-plugins-in-08
+          for details.
+
 0.7   May 22 2015
       --- Features/Enhancements ---
         - iffeature is implemented, thanks to Henry Kielmann!
