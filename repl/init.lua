@@ -16,8 +16,8 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
--- @class repl
 --- This module implements the core functionality of a REPL.
+-- @classmod repl
 
 local plugins_lookup_meta = { __mode = 'k' }
 
@@ -83,6 +83,7 @@ function repl:detectcontinue(err)
   return smatch(err, "'<eof>'$") or smatch(err, "<eof>$")
 end
 
+--- Compiles a chunk of text into 
 function repl:compilechunk(chunk)
   return loadstring(chunk, self:name())
 end
