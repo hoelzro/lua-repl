@@ -22,8 +22,8 @@
 local plugins_lookup_meta = { __mode = 'k' }
 
 local repl         = { _buffer = '', _plugins = setmetatable({}, plugins_lookup_meta), _features = {}, _ifplugin = {}, _iffeature = {}, VERSION = 0.8 }
+local compat       = require 'repl.compat'
 local select       = select
-local loadstring   = loadstring
 local dtraceback   = debug.traceback
 local setmetatable = setmetatable
 local sformat      = string.format
@@ -249,7 +249,7 @@ local function setup_after(repl)
     repl[key] = function(...)
       local _, results = gather_results(true, old_value(...))
       value(...)
-      return unpack(results, 1, results.n)
+      return compat.unpack(results, 1, results.n)
     end
   end
 
@@ -401,7 +401,7 @@ function repl:loadplugin(chunk)
     end
   end
 
-  return unpack(results, 1, results.n)
+  return compat.unpack(results, 1, results.n)
 end
 
 -- XXX how to guarantee this gets called?
