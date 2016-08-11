@@ -84,7 +84,7 @@ function repl:detectcontinue(err)
 end
 
 function repl:compilechunk(chunk)
-  return loadstring(chunk, self:name())
+  return compat.loadstring(chunk, self:name())
 end
 
 --- Evaluates a line of input, and displays return value(s).

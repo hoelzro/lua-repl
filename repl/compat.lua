@@ -19,5 +19,8 @@
 return {
    -- unpack was moved to table.unpack on Lua version 5.2
    -- See https://www.lua.org/manual/5.2/manual.html#8
-   unpack = unpack or table.unpack
+   unpack = unpack or table.unpack,
+   -- loadstring was deprecated in favor of load, which was updated
+   -- to handle string arguments
+   loadstring = loadstring or load
 }
