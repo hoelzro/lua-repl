@@ -22,5 +22,9 @@ return {
    unpack = unpack or table.unpack,
    -- loadstring was deprecated in favor of load, which was updated
    -- to handle string arguments
-   loadstring = loadstring or load
+   loadstring = loadstring or load,
+   -- package.loaders was renamed package.searchers in Lua 5.2
+   package = {
+      searchers = package.loaders or package.searchers
+   }
 }
