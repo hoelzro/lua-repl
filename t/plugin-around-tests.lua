@@ -1,5 +1,6 @@
 -- vim:foldmethod=marker
 local repl = require 'repl'
+local compat = require 'repl.compat'
 pcall(require, 'luarocks.loader')
 require 'Test.More'
 local utils = require 'test-utils'
@@ -24,7 +25,7 @@ do -- basic tests {{{
       ok(not has_called_normal)
       local return_values = utils.gather_results(orig(self, ...))
       ok(has_called_normal)
-      return unpack(return_values, 1, return_values.n)
+      return compat.unpack(return_values, 1, return_values.n)
     end
   end)
 

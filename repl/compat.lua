@@ -16,42 +16,15 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
--- @class repl.console
---- This module implements a command line-based REPL,
---- similar to the standalone Lua interpreter.
-
-local sync_repl    = require 'repl.sync'
-local compat       = require 'repl.compat'
-local console_repl = sync_repl:clone()
-local stdout       = io.stdout
-local stdin        = io.stdin
-local print        = print
-local unpack       = unpack
-
--- @see repl:showprompt(prompt)
-function console_repl:showprompt(prompt)
-  stdout:write(prompt .. ' ')
-end
-
--- @see repl.sync:lines()
-function console_repl:lines()
-  return stdin:lines()
-end
-
--- @see repl:displayresults(results)
-function console_repl:displayresults(results)
-  if results.n == 0 then
-    return
-  end
-
-  print(compat.unpack(results, 1, results.n))
-end
-
--- @see repl:displayerror(err)
-function console_repl:displayerror(err)
-  print(err)
-end
-
-console_repl._features.console = true
-
-return console_repl
+return {
+   -- unpack was moved to table.unpack on Lua version 5.2
+   -- See https://www.lua.org/manual/5.2/manual.html#8
+   unpack = unpack or table.unpack,
+   -- loadstring was deprecated in favor of load, which was updated
+   -- to handle string arguments
+   loadstring = loadstring or load,
+   -- package.loaders was renamed package.searchers in Lua 5.2
+   package = {
+      searchers = package.loaders or package.searchers
+   }
+}
