@@ -1,0 +1,31 @@
+language: generic
+sudo: false
+
+env:
+  - LUA=5.1   LUAROCKS=2.3.0
+  - LUA=5.1.5 LUAROCKS=2.3.0
+  - LUA=5.2.0 LUAROCKS=2.3.0
+  - LUA=5.2.4 LUAROCKS=2.3.0
+  - LUA=5.3.0 LUAROCKS=2.3.0
+  - LUA=5.3.3 LUAROCKS=2.3.0
+
+cache:
+  apt: true
+  directories:
+    - $HOME/luas/
+
+addons:
+  apt:
+    packages:
+      - luarocks
+
+before_install:
+  - luarocks --local install vert
+
+install:
+  - ~/.luarocks/bin/vert init --lua-version=$LUA --luarocks-version=$LUAROCKS $HOME/luas/$LUA
+  - source $HOME/luas/$LUA/bin/activate
+  - luarocks install lua-testmore
+
+script:
+  - make test
