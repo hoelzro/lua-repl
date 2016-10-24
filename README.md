@@ -73,7 +73,7 @@ it also offers persistent history and tab completion.  It also offers
 a number of plugins; see plugins.md for a list of plugins that come
 with lua-repl.
 
-# Backwards Compatability Changes
+# Backwards Compatibility Changes
 
 ## Removal of default plugins in 0.8
 
