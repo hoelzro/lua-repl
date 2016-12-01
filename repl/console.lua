@@ -16,9 +16,9 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
--- @class repl.console
 --- This module implements a command line-based REPL,
---- similar to the standalone Lua interpreter.
+-- similar to the standalone Lua interpreter.
+-- @classmod repl.console
 
 local sync_repl    = require 'repl.sync'
 local compat       = require 'repl.compat'
@@ -28,17 +28,17 @@ local stdin        = io.stdin
 local print        = print
 local unpack       = unpack
 
--- @see repl:showprompt(prompt)
+--- @see repl:showprompt
 function console_repl:showprompt(prompt)
   stdout:write(prompt .. ' ')
 end
 
--- @see repl.sync:lines()
+--- @see repl.sync:lines
 function console_repl:lines()
   return stdin:lines()
 end
 
--- @see repl:displayresults(results)
+--- @see repl:displayresults
 function console_repl:displayresults(results)
   if results.n == 0 then
     return
@@ -47,7 +47,7 @@ function console_repl:displayresults(results)
   print(compat.unpack(results, 1, results.n))
 end
 
--- @see repl:displayerror(err)
+--- @see repl:displayerror
 function console_repl:displayerror(err)
   print(err)
 end

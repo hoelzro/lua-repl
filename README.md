@@ -33,7 +33,8 @@ basic line editing.
 
 # Building
 
-  * You need Luadoc (http://keplerproject.github.com/luadoc/) installed to build the documentation.
+  * You need LDoc (http://stevedonovan.github.io/ldoc/) installed to build the documentation.
+    To view, run `ldoc .` and point your browser to `docs/index.html`.
 
   * You need Test.More (http://fperrad.github.com/lua-TestMore/testmore.html) installed to run the tests.
 

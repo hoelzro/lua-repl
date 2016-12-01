@@ -1,3 +1,4 @@
+--
 -- Copyright (c) 2011-2015 Rob Hoelz <rob@hoelz.ro>
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -16,6 +17,11 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+--- Utility functions.
+-- @module repl.utils
+-- @local
+
+--- Sets the environment to be used by the given function.
 local setfenv = setfenv or function(f, t)
   local upvalue_index = 1
 
@@ -35,7 +41,7 @@ local setfenv = setfenv or function(f, t)
   end
 end
 
---- Tests wheter an expression ends in an unfinished string literal.
+--- Tests whether an expression ends in an unfinished string literal.
 -- @return First position in the unfinished string literal or `nil`.
 local function ends_in_unfinished_string(expr)
   local position = 0
@@ -64,6 +70,7 @@ local function ends_in_unfinished_string(expr)
   return last_unmatched_start
 end
 
+--- @export
 return {
   setfenv = setfenv,
   ends_in_unfinished_string = ends_in_unfinished_string
