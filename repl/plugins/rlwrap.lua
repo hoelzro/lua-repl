@@ -20,7 +20,11 @@ if os.getenv 'LUA_REPL_RLWRAP' then
   features = 'input'
 else
   -- XXX check that we're not receiving input from a non-tty
-  local has_rlwrap = os.execute('which rlwrap >/dev/null 2>/dev/null') == 0
+  local has_rlwrap = os.execute('which rlwrap >/dev/null 2>/dev/null')
+
+  if type(has_rlwrap) ~= 'boolean' then
+    has_rlwrap = has_rlwrap == 0
+  end
 
   if not has_rlwrap then
     error 'Please install rlwrap in order to use the rlwrap plugin'
