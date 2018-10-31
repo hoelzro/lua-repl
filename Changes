@@ -1,5 +1,12 @@
 NEXT
 
+0.9   Oct 30 2018
+      --- Bug Fixes ---
+        - Fixed rlwrap plugin under Lua 5.2 and greater (GH #57)
+
+      --- Features/Enhancements ---
+        - Improve support for Lua 5.3 (thanks, Iqbal Ansari!)
+
 0.8
       Aug 23 2015
       --- Bug Fixes ---
