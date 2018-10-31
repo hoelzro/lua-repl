@@ -1,8 +1,8 @@
 package = 'luarepl'
-version = '0.8-1'
+version = '0.9-1'
 source  = {
-    url = 'https://github.com/hoelzro/lua-repl/archive/0.8.tar.gz',
-    dir = 'lua-repl-0.8',
+    url = 'https://github.com/hoelzro/lua-repl/archive/0.9.tar.gz',
+    dir = 'lua-repl-0.9',
 }
 description = {
   summary  = 'A reusable REPL component for Lua, written in Lua',
@@ -18,6 +18,7 @@ build = {
     ['repl']                                   = 'repl/init.lua',
     ['repl.utils']                             = 'repl/utils.lua',
     ['repl.sync']                              = 'repl/sync.lua',
+    ['repl.compat']                            = 'repl/compat.lua',
     ['repl.console']                           = 'repl/console.lua',
     ['repl.plugins.autoreturn']                = 'repl/plugins/autoreturn.lua',
     ['repl.plugins.completion']                = 'repl/plugins/completion.lua',

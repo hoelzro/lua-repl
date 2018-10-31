@@ -1,4 +1,4 @@
-0.9
+0.10
 ===
 
   * Process Lua command line options with rep.lua
