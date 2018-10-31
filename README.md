@@ -21,7 +21,8 @@ make use of.
 This library also includes an example application (rep.lua), which serves as an alternative
 to the standalone interpreter included with Lua.  If the lua-linenoise library is installed,
 it uses linenoise for history and tab completion; otherwise, it tries to use rlwrap for
-basic line editing.
+basic line editing.  If you would like the arrow keys to work as expected rather than printing
+things like `^[[A`, please install the lua-linenoise library or the rlwrap program.
 
 # Project Goals
 
