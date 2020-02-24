@@ -23,7 +23,7 @@ local error     = error
 -- @class repl.sync
 --- This module implements a synchronous REPL.  It provides
 --- a run() method for actually running the REPL, and requires
---- that implementors implement the lines() method.
+--- that implementors implement the lines() and the write() methods.
 
 --- Run a REPL loop in a synchronous fashion.
 -- @name repl.sync:run
@@ -41,6 +41,12 @@ end
 -- @return An iterator.
 function sync_repl:lines()
   error 'You must implement the lines method'
+end
+
+--- Prints a string to the output.
+-- @name repl.sync:write
+function sync_repl:write(str)
+  error 'You must implement the write method'
 end
 
 return sync_repl
