@@ -244,15 +244,10 @@ end
 
 repl:requirefeature 'console'
 
-function around:displayresults(orig, results)
+function override:displayresults(results)
   local pieces = {}
 
   for i = 1, results.n do
-
-    if i ~= 1 then
-      pieces[#pieces + 1] = '\n'
-    end
-
     dump {
       pieces = pieces,
       seen   = {},
@@ -260,7 +255,8 @@ function around:displayresults(orig, results)
       value  = results[i],
       indent = 1,
     }
+    pieces[#pieces + 1] = '\n'
   end
 
-  orig(self, {tconcat(pieces, ''), n = 1})
+  stderr:write(tconcat(pieces, ''))
 end
