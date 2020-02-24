@@ -43,6 +43,11 @@ function console_repl:write(str)
   stdout:write(str)
 end
 
+-- @see repl:displayerror(err)
+function console_repl:displayerror(err)
+  stderr:write(tostring(err), '\n')
+end
+
 console_repl._features.console = true
 
 return console_repl
