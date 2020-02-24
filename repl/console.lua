@@ -38,18 +38,9 @@ function console_repl:lines()
   return stdin:lines()
 end
 
--- @see repl:displayresults(results)
-function console_repl:displayresults(results)
-  if results.n == 0 then
-    return
-  end
-
-  print(compat.unpack(results, 1, results.n))
-end
-
--- @see repl:displayerror(err)
-function console_repl:displayerror(err)
-  print(err)
+-- @see repl.sync:write()
+function console_repl:write(str)
+  stdout:write(str)
 end
 
 console_repl._features.console = true
