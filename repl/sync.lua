@@ -49,4 +49,12 @@ function sync_repl:write(str)
   error 'You must implement the write method'
 end
 
+-- @see repl:displayresults(results)
+function sync_repl:displayresults(results)
+  for i = 1, results.n do
+    self:write(tostring(results[i]))
+    self:write('\n')
+  end
+end
+
 return sync_repl
