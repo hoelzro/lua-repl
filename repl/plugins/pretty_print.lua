@@ -19,7 +19,6 @@
 -- Pretty prints expression results (console only)
 
 local format   = string.format
-local tconcat  = table.concat
 local tsort    = table.sort
 local tostring = tostring
 local type     = type
@@ -248,11 +247,6 @@ function around:displayresults(orig, results)
   local pieces = {}
 
   for i = 1, results.n do
-
-    if i ~= 1 then
-      pieces[#pieces + 1] = '\n'
-    end
-
     dump {
       pieces = pieces,
       seen   = {},
@@ -260,7 +254,9 @@ function around:displayresults(orig, results)
       value  = results[i],
       indent = 1,
     }
+    pieces[#pieces + 1] = '\n'
   end
 
-  orig(self, {tconcat(pieces, ''), n = 1})
+  pieces.n = #pieces
+  orig(self, pieces)
 end
