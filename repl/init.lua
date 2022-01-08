@@ -110,6 +110,7 @@ function repl:handleline(line)
       return 2
     else
       self:displayerror(err)
+      self._buffer = ''
     end
   end
 
