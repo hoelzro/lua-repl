@@ -1,5 +1,9 @@
 NEXT
 
+0.10  Jan 14 2022
+      --- Bug Fixes ---
+        - Fixed issue where current buffer is stuck after certain syntax errors (GH #61, thanks Justin Blanchard!)
+
 0.9   Oct 30 2018
       --- Bug Fixes ---
         - Fixed rlwrap plugin under Lua 5.2 and greater (GH #57)
